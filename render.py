@@ -1,10 +1,8 @@
 import os
 import jinja2
-import config
-
+#import config
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
-
 
 def page(handler, template_file, values={}):
     template = jinja_env.get_template(template_file)
