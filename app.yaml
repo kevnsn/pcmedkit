@@ -6,16 +6,14 @@ threadsafe: yes
 
 handlers:
 
-# ------STATIC--------
 - url: /css
   static_dir: css
 - url: /js
   static_dir: js
 - url: /img
   static_dir: img
-- url: /
-  script: handle_main.app
-- url: /.+
+
+- url: /.*
   script: handle_main.app
 
 libraries:
