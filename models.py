@@ -1,16 +1,11 @@
 from google.appengine.ext import db
 
-class sources(db.Model):
-    # for versioning
-    date = db.DateTimeProperty(required=False)
-    date_added = db.DateTimeProperty(required=False)
-    last_updated = db.DateTimeProperty(required=False)
-    recnum = db.IntegerProperty(required=False)
-    feed_url = db.StringProperty(required=False)
-    
+class volunteer(db.Model):
+
     #Weekly Read Stuff
-    source = db.StringProperty(required=False) # AKA Office
-    title = db.StringProperty(required=False)
+    pcv = db
+    first_name = db.StringProperty(required=True) # AKA Office
+    last_name = db.StringProperty(required=True)
     link = db.StringProperty(required=True)
     tags = db.CategoryProperty(required=False)
     tags_list = db.ListProperty(str)
@@ -45,3 +40,9 @@ class sources(db.Model):
     wr = db.BooleanProperty(required=False)
     repository = db.BooleanProperty(required=False)
     processed = db.BooleanProperty(required=False)
+
+    date = db.DateTimeProperty(required=False)
+    date_added = db.DateTimeProperty(required=False)
+    last_updated = db.DateTimeProperty(required=False)
+    recnum = db.IntegerProperty(required=False)
+    feed_url = db.StringProperty(required=False)
