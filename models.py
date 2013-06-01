@@ -20,7 +20,7 @@ class DeliveryEvent(db.Model):
 
 class Supply(db.Model):
     name = db.StringProperty(required=True)
-    packaging = db.StringProperty(required=True)
+    description = db.StringProperty(required=True)
     maximum = db.IntegerProperty(required=False)
 
 class SupplyRequest(db.Model):
@@ -30,12 +30,13 @@ class SupplyRequest(db.Model):
     delivery_event = db.ReferenceProperty(DeliveryEvent)
     status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
     status_notes = db.TextProperty(required=False)
-    pcv_notes = db.TextProperty(required=False)
+    volunteer_notes = db.TextProperty(required=False)
 
 class PostDefault(db.Model):
+    slug = db.StringProperty(required=True)
     supplies = db.ListProperty(db.Key)
-    packaging = db.StringProperty(required=True)
-    status = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
+    post_admin = db.ListProperty(db.EmailProperty)
+    region = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
     post = db.StringProperty(required=True)
 
 
