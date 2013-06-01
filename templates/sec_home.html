@@ -1,5 +1,5 @@
 {% extends "templates/base.html" %}
-{% block title %}Volunteer Home{% endblock %}
+{% block title %}Medical Officer Home{% endblock %}
 {% block head %}
     {{ super() }}
     <style type="text/css">
@@ -16,12 +16,12 @@
     -->
      <div class="row-fluid">
         <div class="span3">
-        	{%include "templates/volunteer_sidebar.html"%}
+        	{%include "templates/sec_sidebar.html"%}
         </div><!--/span-->
         <div class="span9">
           <div class="hero-unit">
-            <h2>My Requests</h2>
-            <p>The following are requests you have submitted to your Peace Corps Medical Officer:</p>
+            <h2>Requests Dashboard</h2>
+            <p>The following are requests that have been submitted to you:</p>
             <label for="filtertext" style="display:inline; margin-right:10px;">Filter:</label><input type="text" class="f_txt" name = "filtertext"/>
             <script>
 			$(function(){ 
