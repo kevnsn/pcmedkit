@@ -1,4 +1,3 @@
-pcmedkit
-========
 
-An application to track peace core med kit.
+Peace Corps Med Kit App
+
