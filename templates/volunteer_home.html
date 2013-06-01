@@ -22,29 +22,38 @@
           <div class="hero-unit">
             <h2>Request status.</h2>
             <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <table width="100%" border="0" id="requestTable">
+            <label for="filtertext">Filter</label><input type="text" class="f_txt" name = "filtertext"/>
+            <script>
+			$(function(){ 
+			$(".f_txt").table_filter({
+				'table':'.requestTable',
+				'filter_inverse':false,
+				'enable_space':false
+				});
+			});
+			</script>
+            <table width="100%" border="0" class="requestTable">
               <tr>
-                <td>03/12/2013;</td>
-                <td>03/11/2013</td>
-                <td>03/10/2013</td>
+                <th>Date</th>
+                <th>Delivery Event</th>
+                <th>Status</th>
+                <th>Supplies</th>
               </tr>
               <tr>
-                <td>Band-Aids (10), Delivery (20)</td>
-                <td>Condoms (30)</td>
+                <td>04/20/2013</td>
+                <td>Pickup on 5/1/2013</td>
+                <td>Requested</td>
                 <td>Hand-Santizer (30)</td>
               </tr>
               <tr>
                 <td>04/15/2013</td>
-                <td>04/15/2013</td>
-                <td>04/15/2013</td>
+                <td>Pickup on 5/1/2013</td>
+                <td>Requested</td>
+                <td>Condoms (120)</td>
               </tr>
             </table>
             <p>&nbsp;</p>
-            
-            <script>
-			$('#requestTable').ddTableFilter();
-			</script>
-            
+           
             <p><a href="#" class="btn btn-primary btn-large">Add a new request &raquo;</a></p>
           </div>
   
