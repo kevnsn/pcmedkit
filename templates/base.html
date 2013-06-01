@@ -9,8 +9,8 @@
     <!-- jquery -->
     <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
     <!-- twitter bootstrap -->
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet">     
-    <link href="/css/bootstrap.css" rel="stylesheet">         
+    <link href="/css/bootstrap.css" rel="stylesheet">        
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">      
     <!-- my code -->
     <link href="/css/main.css" rel="stylesheet" >
     {% endblock %} 
@@ -22,6 +22,9 @@
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
     <!-- twitter bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
+    
+    <!-- filter table -->
+    <script src="/js/ddtf.js"></script>
     <!-- my code -->
     <!--<script type="text/javascript" rel="js" src="/js/main.js"></script>-->
     {% endblock %}
@@ -34,10 +37,8 @@
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-	
 	  ga('create', 'UA-41387766-1', 'pcmedkit.appspot.com');
 	  ga('send', 'pageview');
-	
 	</script>
     
     {% endblock %}
@@ -46,36 +47,14 @@
     {% endblock %}
   </head>  
   <body>
-
-	{% block navbar_block %}
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="brand" href="#">Project name</a>
-          <div class="nav-collapse collapse">
-            <p class="navbar-text pull-right">
-              Logged in as <a href="#" class="navbar-link">Username</a>
-            </p>
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-	{% endblock %}
-	
+  	{%include "templates/navbar.html"%}
+    
     <div class="container-fluid">
-        {% block content_box %}
+        {% block content %}
         {% endblock %}
     </div>
+    
+    {% include "templates/footer.html" %}
   </body>
   
 </html>
