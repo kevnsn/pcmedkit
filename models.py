@@ -12,19 +12,6 @@ class Volunteer(db.Model):
     notes = db.TextProperty(required=False)
     medboxs = db.ListProperty(db.Key)
 
-class MedBox(db.Model):
-    code = db.StringProperty(required=False)
-    date_issued = db.DateTimeProperty(required=False)
-    in_use = db.BooleanProperty(required=False)
-    volunteers = db.ListProperty(db.Key)
-    supply_requests = db.ListProperty(db.Key)
-    regional_defualts = db.ListProperty(db.Key)
-    def put(self):
-        key = super(articles, self).put()
-        if medbox.mdid is None:
-            medbox.mdid = str(self.key())[:2] + str(self.id())
-            key = super(articles, self).put()
-        return key
 
 class DeliveryEvent(db.Model):
     name = db.StringProperty(required=True)
@@ -45,8 +32,25 @@ class SupplyRequest(db.Model):
     status_notes = db.TextProperty(required=False)
     pcv_notes = db.TextProperty(required=False)
 
-class RegionalDefault(db.Model):
+class PostDefault(db.Model):
     supplies = db.ListProperty(db.Key)
     packaging = db.StringProperty(required=True)
     status = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
     post = db.StringProperty(required=True)
+
+
+class MedBox(db.Model):
+    code = db.StringProperty(required=False)
+    date_issued = db.DateTimeProperty(required=False)
+    in_use = db.BooleanProperty(required=False)
+    volunteers = db.ListProperty(db.Key)
+    supply_requests = db.ListProperty(db.Key)
+    post_default = db.ReferenceProperty(PostDefault)
+    def put(self):
+        key = super(articles, self).put()
+        if medbox.mdid is None:
+            medbox.mdid = str(self.key())[:2] + str(self.id())
+            key = super(articles, self).put()
+        return key
+
+
