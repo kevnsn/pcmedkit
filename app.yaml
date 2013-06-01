@@ -13,11 +13,8 @@ handlers:
   static_dir: js
 - url: /img
   static_dir: img
-- url: /
+- url: /.*
   script: handle_main.app
-
-- url: /.+
-  script: home.app
 
 libraries:
 - name: webapp2
