@@ -18,6 +18,7 @@ class MedBox(db.Model):
     in_use = db.BooleanProperty(required=False)
     volunteers = db.ListProperty(db.Key)
     supply_requests = db.ListProperty(db.Key)
+    regional_defualts = db.ListProperty(db.Key)
     def put(self):
         key = super(articles, self).put()
         if medbox.mdid is None:
@@ -37,9 +38,15 @@ class Supply(db.Model):
 
 class SupplyRequest(db.Model):
     supplies = db.ListProperty(db.Key)
+    date = db.DateTimeProperty(required=False)
     quantities = db.ListProperty(int)
-    delivery_events = db.ReferenceProperty(DeliveryEvent)
+    delivery_event = db.ReferenceProperty(DeliveryEvent)
+    status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
+    status_notes = db.TextProperty(required=False)
+    pcv_notes = db.TextProperty(required=False)
 
-
-
-
+class RegionalDefault(db.Model):
+    supplies = db.ListProperty(db.Key)
+    packaging = db.StringProperty(required=True)
+    status = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
+    post = db.StringProperty(required=True)
