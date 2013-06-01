@@ -9,13 +9,11 @@ import render
 
 import jinja2
 
-class home(webapp2.RequestHandler):
+class main(webapp2.RequestHandler):
     def get(self):
         template_values = {
             'name': 'SomeGuy',
             'verb': 'extremely enjoy'
         }
         html = render.page(self, "templates/volunteer_home.html",template_values)
-        self.response.out.write(html)		
-        
-app = webapp2.WSGIApplication([('/', home),])
+        self.response.out.write(html)

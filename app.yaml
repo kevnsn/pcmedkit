@@ -10,14 +10,12 @@ handlers:
 - url: /css
   static_dir: css
 - url: /js
-  static_dir: js 
+  static_dir: js
 - url: /img
   static_dir: img
-  
 - url: /
-  script: home.app
+  script: handle_main.app
 
-  
 - url: /.+
   script: home.app
 

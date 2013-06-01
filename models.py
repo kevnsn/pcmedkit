@@ -1,48 +1,45 @@
 from google.appengine.ext import db
 
-class volunteer(db.Model):
-
-    #Weekly Read Stuff
-    pcv = db
-    first_name = db.StringProperty(required=True) # AKA Office
+class Volunteer(db.Model):
+    first_name = db.StringProperty(required=True)
     last_name = db.StringProperty(required=True)
-    link = db.StringProperty(required=True)
-    tags = db.CategoryProperty(required=False)
-    tags_list = db.ListProperty(str)
-    description = db.TextProperty(required=False)
-    relevance = db.TextProperty (required=False)
-    
-    #ESIL Stuff
-    esil = db.ListProperty(str)
-    
-    #Alchemy Stuff
-    content = db.TextProperty (required=False)
-    alchemy_keywords = db.CategoryProperty(required=False)
-    concepts = db.CategoryProperty(required=False) # Still need to generate this field
-    keywords_list = db.ListProperty(str)
-    concepts_list = db.ListProperty(str)
-    
-    #PAS Stuff
-    issue = db.CategoryProperty(required=False)
-    policy = db.CategoryProperty(required=False)
-    format = db.CategoryProperty (required=False)
-    origin = db.CategoryProperty(required=False)
-    
-    posted_by = db.StringProperty(required=False) # AKA Feed Owner
-    
-    #Only for Legislation
-    bill = db.StringProperty(required=False) 
-    congress = db.IntegerProperty(required=False) 
-    
-    # Report Selectors
-    report = db.CategoryProperty(required=False)
-    report_list = db.ListProperty(str)
-    wr = db.BooleanProperty(required=False)
-    repository = db.BooleanProperty(required=False)
-    processed = db.BooleanProperty(required=False)
+    phone = db.PhoneNumberProperty(required=False)
+    email = db.EmailProperty(required=False)
+    trainee_input = db.StringProperty(required=True)
+    project = db.StringProperty(required=True)
+    cos = db.DateTimeProperty(required=False)
+    sitelocation = db.TextProperty(required=False)
+    notes = db.TextProperty(required=False)
+    medboxs = db.ListProperty(db.Key)
 
+class MedBox(db.Model):
+    code = db.StringProperty(required=False)
+    date_issued = db.DateTimeProperty(required=False)
+    in_use = db.BooleanProperty(required=False)
+    volunteers = db.ListProperty(db.Key)
+    supply_requests = db.ListProperty(db.Key)
+    def put(self):
+        key = super(articles, self).put()
+        if medbox.mdid is None:
+            medbox.mdid = str(self.key())[:2] + str(self.id())
+            key = super(articles, self).put()
+        return key
+
+class DeliveryEvent(db.Model):
+    name = db.StringProperty(required=True)
     date = db.DateTimeProperty(required=False)
-    date_added = db.DateTimeProperty(required=False)
-    last_updated = db.DateTimeProperty(required=False)
-    recnum = db.IntegerProperty(required=False)
-    feed_url = db.StringProperty(required=False)
+    notes = db.TextProperty(required=False)
+
+class Supply(db.Model):
+    name = db.StringProperty(required=True)
+    packaging = db.StringProperty(required=True)
+    maximum = db.IntegerProperty(required=False)
+
+class SupplyRequest(db.Model):
+    supplies = db.ListProperty(db.Key)
+    quantities = db.ListProperty(int)
+    delivery_events = db.ReferenceProperty(DeliveryEvent)
+
+
+
+
