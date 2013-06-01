@@ -1,4 +1,5 @@
 import cgi
+import os
 import webapp2
 from datetime import datetime
 from google.appengine.api import search
@@ -14,5 +15,5 @@ class home(webapp2.RequestHandler):
         message = "hello world"
         self.response.out.write(message)
 
-app = webapp2.WSGIApplication([('/', MainPage),
+app = webapp2.WSGIApplication([('/', home),
               ])
