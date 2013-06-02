@@ -16,7 +16,7 @@ class main(webapp2.RequestHandler):
             'position': 'Peace Corps Volunteer',
             'verb': 'extremely enjoy'
         }
-        html = render.page(self, "templates/volunteer_home.html",template_values)
+        html = render.page(self, "templates/volunteer/home.html",template_values)
         self.response.out.write(html)
 
 class form(webapp2.RequestHandler):
@@ -25,5 +25,5 @@ class form(webapp2.RequestHandler):
             'position': 'Medical Officer',
             'verb': 'extremely enjoy'
         }
-        html = render.page(self, "templates/sec_home.html",template_values)
+        html = render.page(self, "templates/volunteer/supply_form.html",template_values)
         self.response.out.write(html)
