@@ -13,7 +13,7 @@ handlers:
 - url: /img
   static_dir: img
 
-- url: /
+- url: /.*
   script: handle_main.app
 
 - url: /admin.*
