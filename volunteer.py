@@ -8,7 +8,6 @@ import models
 import render
 
 import jinja2
-import forms
 
 
 
@@ -17,7 +16,6 @@ class main(webapp2.RequestHandler):
         template_values = {
             'position': 'Peace Corps Volunteer',
             'verb': 'extremely enjoy',
-            'formhtml': forms.VolunteerForm().as_table()
         }
         html = render.page(self, "templates/volunteer/home.html",template_values)
         self.response.out.write(html)
