@@ -1,23 +1,22 @@
-,,,,,,,,,
 first_name,last_name,phone,email,trainee_input,project,cos,sitelocation,notes,medboxs
-Elias,Batalla,610837895,EliasBatalla@gmail.com,N59,Health,8/8/2014,david chiriqui,comarca ngabe bugle,regional leader
-Caitlin,Wickline,371362113,CaitlinWickline@gmail.com,N60,edu,3/1/2014,Ocu veraguas,veraguas,bee allergy 
-Russell,Gin,750514265,RussellGin@gmail.com,N60,edu,3/1/2014,"los positos, chiriqui",chiriqui,
-Malika,Goupil,989273678,MalikaGoupil@gmail.com,N60,Business,3/1/2014,santa fe darien,darien,malaria area
-Pedro,Grow,192031221,PedroGrow@gmail.com,N61,Health,5/15/2014,"rio hato, cocle",cocle,latex allergy
-Arnoldo,Carver,407713576,ArnoldoCarver@gmail.com,N61,edu,5/15/2014,"hato chami, comarca nagbe bugle",comarca ngabe bugle,
-Marta,Coutee,674111647,MartaCoutee@gmail.com,N61,Business,5/15/2014,"el tigre, comarca kuna yala",veraguas,peanut allergy
-Althea,Nagel,714220780,AltheaNagel@gmail.com,N62,Health,8/8/2014,"barretta, cocle",chiriqui,
-Wendi,Barefoot,256230835,WendiBarefoot@gmail.com,N62,edu,8/8/2014,"las minas, bocas del torro",darien,bee allergy 
-Jefferson,Novello,924528312,JeffersonNovello@gmail.com,N62,Business,8/8/2014,"dupi , chiriqui",cocle,
-Kris,Due,892606908,KrisDue@gmail.com,N62,edu,8/8/2014,"las tablas,  los santos",comarca ngabe bugle,malaria area
-Olga,Crutcher,903655182,OlgaCrutcher@gmail.com,N63,Business,12/8/2014,"las minas, herrerra",veraguas,latex allergy
-Nora,Pinter,662320293,NoraPinter@gmail.com,N63,Health,12/8/2014,"bella vista, colon",chiriqui,
-Isabel,Speaker,395079990,IsabelSpeaker@gmail.com,N63,edu,12/8/2014,"tole, chiriqui",darien,peanut allergy
-Latosha,Rothrock,599722564,LatoshaRothrock@gmail.com,N63,Business,12/8/2014,"isla grande, panama",cocle,bee allergy 
-Greta,Deckman,129960536,GretaDeckman@gmail.com,N63,Health,12/8/2014,"silico creek, bocas del toro",comarca ngabe bugle,
-Marin,Bloss,770115003,MarinBloss@gmail.com,N63,Health,12/8/2014,"tugri, comarca ngabe bugle",veraguas,malaria area
-Kimbra,Mcmackin,537941344,KimbraMcmackin@gmail.com,N63,edu,12/8/2014,"python centro, chiriqui",chiriqui,latex allergy
-Hosea,Glantz,355528806,HoseaGlantz@gmail.com,N64,Business,3/15/2015,"bloss hill, comarca ngabe bugle ",darien,
-Kyong,Nigro,484345503,KyongNigro@gmail.com,N64,Health,3/15/2015,"barretta, cocle",cocle,peanut allergy
+Elias,Batalla,610837895,EliasBatalla@gmail.com,N59,Health,08/08/2014,david chiriqui,comarca ngabe bugle,regional leader
+Caitlin,Wickline,371362113,CaitlinWickline@gmail.com,N60,edu,03/01/2014,Ocu veraguas,veraguas,bee allergy 
+Russell,Gin,750514265,RussellGin@gmail.com,N60,edu,03/01/2014,"los positos, chiriqui",chiriqui,
+Malika,Goupil,989273678,MalikaGoupil@gmail.com,N60,Business,03/01/2014,santa fe darien,darien,malaria area
+Pedro,Grow,192031221,PedroGrow@gmail.com,N61,Health,05/15/2014,"rio hato, cocle",cocle,latex allergy
+Arnoldo,Carver,407713576,ArnoldoCarver@gmail.com,N61,edu,05/15/2014,"hato chami, comarca nagbe bugle",comarca ngabe bugle,
+Marta,Coutee,674111647,MartaCoutee@gmail.com,N61,Business,05/15/2014,"el tigre, comarca kuna yala",veraguas,peanut allergy
+Althea,Nagel,714220780,AltheaNagel@gmail.com,N62,Health,08/08/2014,"barretta, cocle",chiriqui,
+Wendi,Barefoot,256230835,WendiBarefoot@gmail.com,N62,edu,08/08/2014,"las minas, bocas del torro",darien,bee allergy 
+Jefferson,Novello,924528312,JeffersonNovello@gmail.com,N62,Business,08/08/2014,"dupi , chiriqui",cocle,
+Kris,Due,892606908,KrisDue@gmail.com,N62,edu,08/08/2014,"las tablas,  los santos",comarca ngabe bugle,malaria area
+Olga,Crutcher,903655182,OlgaCrutcher@gmail.com,N63,Business,12/08/2014,"las minas, herrerra",veraguas,latex allergy
+Nora,Pinter,662320293,NoraPinter@gmail.com,N63,Health,12/08/2014,"bella vista, colon",chiriqui,
+Isabel,Speaker,395079990,IsabelSpeaker@gmail.com,N63,edu,12/08/2014,"tole, chiriqui",darien,peanut allergy
+Latosha,Rothrock,599722564,LatoshaRothrock@gmail.com,N63,Business,12/08/2014,"isla grande, panama",cocle,bee allergy 
+Greta,Deckman,129960536,GretaDeckman@gmail.com,N63,Health,12/08/2014,"silico creek, bocas del toro",comarca ngabe bugle,
+Marin,Bloss,770115003,MarinBloss@gmail.com,N63,Health,12/08/2014,"tugri, comarca ngabe bugle",veraguas,malaria area
+Kimbra,Mcmackin,537941344,KimbraMcmackin@gmail.com,N63,edu,12/08/2014,"python centro, chiriqui",chiriqui,latex allergy
+Hosea,Glantz,355528806,HoseaGlantz@gmail.com,N64,Business,03/15/2015,"bloss hill, comarca ngabe bugle ",darien,
+Kyong,Nigro,484345503,KyongNigro@gmail.com,N64,Health,03/15/2015,"barretta, cocle",cocle,peanut allergy
 ,,484345503,,,,,,,
