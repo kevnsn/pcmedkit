@@ -9,20 +9,39 @@ def pl(x):
     else:
         return ", ".join(x)
 
-class AlbumExporter(bulkloader.Exporter):
+class SupplyUploader(bulkloader.Exporter):
     def __init__(self):
-        bulkloader.Exporter.__init__(self, 'sources',
+        bulkloader.Exporter.__init__(self, 'Supply',
             [('date', pl,  ""),
-            ('date_added', pl,  ""),
-            ('source', pl, ''),
-            ('feed_url', pl, ''),
-            ('title', pl, ''),
-            ('link', pl, ''),
-            ('description', pl, ''),
-            ('relevance', pl, ''),
-            ('content', pl, ''),
-            ('tags_list', pl, ''),
-            ('esil', pl, ''),
-            ('report_list', pl, ''),
         ])
+
+class DeliveryEventUploader(bulkloader.Exporter):
+    def __init__(self):
+        bulkloader.Exporter.__init__(self, 'DeliveryEvent',
+            [('date', pl,  ""),
+        ])
+
+class SupplyRequestUploader(bulkloader.Exporter):
+    def __init__(self):
+        bulkloader.Exporter.__init__(self, 'SupplyRequest',
+            [('date', pl,  ""),
+        ])
+
+class VolunteerUploader(bulkloader.Exporter):
+    def __init__(self):
+        bulkloader.Exporter.__init__(self, 'Volunteer',
+            [('date', pl,  ""),
+        ])
+
+class MedBoxUploader(bulkloader.Exporter):
+    def __init__(self):
+        bulkloader.Exporter.__init__(self, 'MedBox',
+            [('date', pl,  ""),
+        ])
+class PostDefaultUploader(bulkloader.Exporter):
+    def __init__(self):
+        bulkloader.Exporter.__init__(self, 'PostDefault',
+            [('date', pl,  ""),
+        ])
+
 exporters = [AlbumExporter]
