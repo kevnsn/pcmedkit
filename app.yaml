@@ -13,6 +13,9 @@ handlers:
 - url: /img
   static_dir: img
 
+- url: /
+  script: handle_main.app
+
 - url: /admin.*
   script: handle_main.admin
   login: admin
