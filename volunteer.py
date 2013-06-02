@@ -10,12 +10,14 @@ import render
 import jinja2
 import forms
 
+
+
 class main(webapp2.RequestHandler):
     def get(self):
         template_values = {
             'position': 'Peace Corps Volunteer',
             'verb': 'extremely enjoy',
-            'formhtml': forms.Volunteer().as_table()  
+            'formhtml': forms.VolunteerForm().as_table()
         }
         html = render.page(self, "templates/volunteer/home.html",template_values)
         self.response.out.write(html)
