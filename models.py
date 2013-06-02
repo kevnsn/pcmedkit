@@ -35,7 +35,7 @@ class SupplyRequest(db.Model):
 class PostDefault(db.Model):
     slug = db.StringProperty(required=True)
     supplies = db.ListProperty(db.Key)
-    post_admin = db.ListProperty(db.EmailProperty)
+    post_admin = db.ListProperty(str)
     region = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
     post = db.StringProperty(required=True)
 

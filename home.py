@@ -18,7 +18,7 @@ class vol(webapp2.RequestHandler):
         }
         html = render.page(self, "templates/volunteer_home.html",template_values)
         self.response.out.write(html)
-        
+
 class sec(webapp2.RequestHandler):
     def get(self):
         template_values = {
