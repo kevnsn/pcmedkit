@@ -10,6 +10,7 @@ class Volunteer(db.Model):
     cos = db.DateTimeProperty(required=False)
     sitelocation = db.TextProperty(required=False)
     notes = db.TextProperty(required=False)
+    locality = db.StringProperty(required=False)
     medboxs = db.ListProperty(db.Key)
 
 
@@ -49,8 +50,8 @@ class MedBox(db.Model):
     post_default = db.ReferenceProperty(PostDefault)
     def put(self):
         key = super(articles, self).put()
-        if medbox.mdid is None:
-            medbox.mdid = str(self.key())[:2] + str(self.id())
+        if self.mdid is None:
+            self.mdid = str(self.key())[:2] + str(self.id())
             key = super(articles, self).put()
         return key
 
