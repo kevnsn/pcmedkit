@@ -1,20 +1,22 @@
-import cgi
-import os
 import webapp2
-from datetime import datetime
-from google.appengine.api import search
-from google.appengine.api import users
-from models import Volunteer
 import render
 
-class main(webapp2.RequestHandler):
+class landing(webapp2.RequestHandler):
     def get(self):
-        template_values = {
-            'position': 'Peace Corps Volunteer',
-            'verb': 'extremely enjoy',
-            'volunteers': Volunteer.all()
-        }
-        html = render.page(self, "templates/volunteer/home.html",template_values)
+        html = ''
+        html = '<h1>Welcome</h1>'
+        html += '<p>Visit the <a href="/post/xxx/newmedkit">"Assign Medbox Form"</a> for a mini demo.</p>'
+        v = {'dumb_content': html}
+        html = render.page(self, "templates/base.html",v)
+        self.response.out.write(html)
+
+
+class main(webapp2.RequestHandler):
+    def get(self, site):
+        html = render.page(self, "templates/volunteer/home.html",{})
+        self.response.out.write(html)
+    def post(self, site):
+        html = render.page(self, "templates/volunteer/home.html",{})
         self.response.out.write(html)
 
 class form(webapp2.RequestHandler):

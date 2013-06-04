@@ -1,7 +1,7 @@
 import webapp2
 import home, superadmin, siteadmin, volunteer
 
-app = webapp2.WSGIApplication([('/', volunteer.main),
+app = webapp2.WSGIApplication([('/',volunteer.landing),
                                (r'/post/(.+)/medkit',volunteer.main),
                                ('/request',volunteer.form),
                                (r'/post/(.+)',siteadmin.main),

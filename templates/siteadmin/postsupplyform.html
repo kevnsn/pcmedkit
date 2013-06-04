@@ -8,14 +8,18 @@
 {% endblock %}
 
 {% block content %}
-
      <div class="row-fluid">
-        <div class="span12" style="text-align: center">
-            <h1>Register Medical Box</h1>
-            <form action="/" method="POST">
-            {% for form_item in MedBoxForm %}
-                {{ form_item.label }}{{ form_item }}
-            {% endfor %}
+        <div class="span12">
+            <h1>Assign Medical Box</h1>
+            <form action="{{ path }}" method="POST">
+            {{ vf.first_name.label }}{{ vf.first_name }}
+            {{ vf.last_name.label }}{{ vf.last_name }}
+            <label>Phone Number</label>{{ vf.phone }}
+            <label>Project</label>{{ vf.project }}
+            <label>COS</label>{{ vf.cos(class_="cos_input") }}
+            <label>Site Location</label>{{ vf.sitelocation }}
+             {{ vf.notes.label }}{{ vf.notes }}
+             <br><input type="submit" class="btn" value="submit">
             </form>
 
         </div>

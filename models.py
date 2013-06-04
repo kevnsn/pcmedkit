@@ -5,7 +5,7 @@ class Volunteer(db.Model):
     last_name = db.StringProperty(required=True)
     phone = db.PhoneNumberProperty(required=False)
     email = db.EmailProperty(required=False)
-    trainee_input = db.StringProperty(required=True)
+    trainee_input = db.StringProperty(required=False)
     project = db.StringProperty(required=True)
     cos = db.DateTimeProperty(required=False)
     sitelocation = db.TextProperty(required=False)
@@ -49,8 +49,8 @@ class MedBox(db.Model):
     post_default = db.ReferenceProperty(PostDefault)
     def put(self):
         key = super(MedBox, self).put()
-        if self.mdid is None:
-            self.mdid = str(self.key())[:2] + str(self.id())
+        if self.code is None:
+            self.code = str(self.key())[:2] + str(self.key().id())
             key = super(MedBox, self).put()
         return key
 
