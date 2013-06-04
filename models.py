@@ -1,4 +1,5 @@
 from google.appengine.ext import db
+from random import randint
 
 class Volunteer(db.Model):
     first_name = db.StringProperty(required=True)
@@ -50,7 +51,18 @@ class MedBox(db.Model):
     def put(self):
         key = super(MedBox, self).put()
         if self.code is None:
-            self.code = str(self.key())[:2] + str(self.key().id())
+            unique = False
+            while unique == False:
+                key_as_str = str(self.key())
+                key_length = len(key_as_str)
+                rn1 = randint(10, 999)
+                rn2 = randint(10, 999)
+                rc1 = key_as_str[randint(0, key_length - 1)]
+                rc2 = key_as_str[randint(0, key_length - 1)]
+                code = "%s%s-%s-%s" % (rc1, rc2, rn1, rn2)
+                if MedBox.all().filter('code =', code).count() == 0:
+                    unique = True
+            self.code = code
             key = super(MedBox, self).put()
         return key
 
