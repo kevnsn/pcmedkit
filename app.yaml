@@ -13,7 +13,7 @@ handlers:
 - url: /img
   static_dir: img
 
-- url: /.*
+- url: /
   script: handle_main.app
 
 - url: /admin.*
@@ -21,10 +21,10 @@ handlers:
   login: admin
   secure: always
 
-- url: /post/(?P<site>).+/medkit
+- url: /post/(.+)/medkit
   script: handle_main.app
 
-- url: /post/(?P<site>).+/medkit
+- url: /post/(.+)/.+
   script: handle_main.siteadmin
   login: admin
   secure: always

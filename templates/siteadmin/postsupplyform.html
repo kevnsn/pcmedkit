@@ -2,64 +2,24 @@
 {% block title %}Medical Officer Home{% endblock %}
 {% block head %}
     {{ super() }}
-    <style type="text/css">
-        .important { color: #336699; }
-    </style>
+
+
+
 {% endblock %}
 
 {% block content %}
-<!--
-    <h1>Index</h1>
-    <p class="important">
-      Welcome on my awesome homepage.
-    </p>
-    -->
+
      <div class="row-fluid">
-        <div class="span3">
-        	{%include "templates/sec_sidebar.html"%}
-        </div><!--/span-->
-        <div class="span9">
-          <div class="hero-unit">
-            <h2>Requests Dashboard</h2>
-            <p>The following are requests that have been submitted to you:</p>
-            <label for="filtertext" style="display:inline; margin-right:10px;">Filter:</label><input type="text" class="f_txt" name = "filtertext"/>
-            <script>
-			$(function(){ 
-			$(".f_txt").table_filter({
-				'table':'.requestTable',
-				'filter_inverse':false,
-				'enable_space':false
-				});
-			});
-			</script>
-            <table width="100%" border="0" class="requestTable">
-              <tr>
-                <th>Date</th>
-                <th>Delivery Event</th>
-                <th>Status</th>
-                <th>Supplies</th>
-              </tr>
-              <tr>
-                <td>04/20/2013</td>
-                <td>Pickup on 5/1/2013</td>
-                <td>Requested</td>
-                <td>Hand-Santizer (30)</td>
-              </tr>
-              <tr>
-                <td>04/15/2013</td>
-                <td>Pickup on 5/1/2013</td>
-                <td>Requested</td>
-                <td>Condoms (120)</td>
-              </tr>
-            </table>
-            <p>&nbsp;</p>
-           
-            <p><a href="#" class="btn btn-primary btn-large">Add a new request &raquo;</a></p>
-          </div>
-  
-          
-        </div><!--/span-->
-      </div><!--/row-->
+        <div class="span12" style="text-align: center">
+            <h1>Register Medical Box</h1>
+            <form action="/" method="POST">
+            {% for form_item in MedBoxForm %}
+                {{ form_item.label }}{{ form_item }}
+            {% endfor %}
+            </form>
+
+        </div>
+      </div>
 
 
 {% endblock %}

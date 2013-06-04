@@ -1,14 +1,8 @@
 import cgi
 import os
 import webapp2
-from datetime import datetime
-from google.appengine.api import search
-from google.appengine.api import users
-import models
 import render
-
-import jinja2
-
+from forms import MedBoxForm
 
 class main(webapp2.RequestHandler):
     def get(self):
@@ -29,10 +23,9 @@ class form(webapp2.RequestHandler):
         self.response.out.write(html)
 
 class boxform(webapp2.RequestHandler):
-    def get(self):
-        template_values = {
-            'position': 'Medical Officer',
-            'verb': 'extremely enjoy'
-        }
-        html = render.page(self, "templates/siteadmin/postsupplyform.html",template_values)
+    def get(self, site):
+        v = {'MedBoxForm': MedBoxForm()}
+        html = render.page(self, "templates/siteadmin/postsupplyform.html",v)
         self.response.out.write(html)
+    def post(self, site):
+        self.response.out.write("foo")
