@@ -4,18 +4,15 @@ import webapp2
 from datetime import datetime
 from google.appengine.api import search
 from google.appengine.api import users
-import models
+from models import Volunteer
 import render
-
-import jinja2
-
-
 
 class main(webapp2.RequestHandler):
     def get(self):
         template_values = {
             'position': 'Peace Corps Volunteer',
             'verb': 'extremely enjoy',
+            'volunteers': Volunteer.all()
         }
         html = render.page(self, "templates/volunteer/home.html",template_values)
         self.response.out.write(html)

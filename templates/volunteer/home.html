@@ -32,257 +32,32 @@
 				});
 			});
 			</script>
+
             <table width="100%" border="0" class="requestTable">
               <tr>
-                <th>Date</th>
-                <th>Delivery Event</th>
-                <th>Status</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th align="right">Phone</th>
                 <th>Email</th>
-                <th>Trainee</th>
-                <th>Project</th>
+                <th>Trainee Input</th>
                 <th>COS</th>
-                <th>Location</th>
-                <th>Notes</th>
-                <th>Supplies</th>
+                <th align="right">Project</th>
+                <th>Site Location</th>
+                <th>notes</th>
               </tr>
+                {% for v in volunteers %}
               <tr>
-                <td>Elias</td>
-                <td>Batalla</td>
-                <td align="right">610837895</td>
-                <td>EliasBatalla@gmail.com</td>
-                <td>N59</td>
-                <td>Health</td>
-                <td align="right">8/8/2014</td>
-                <td>david chiriqui</td>
-                <td>comarca ngabe bugle</td>
-                <td>regional leader</td>
+                <td>{{ v.last_name }}</td>
+                <td>{{ v.first_name }}</td>
+                <td align="right">{{ v.phone }}</td>
+                <td>{{ v.email }}</td>
+                <td>{{ v.trainee_input }}</td>
+                <td>{{ v.cos.strftime('%m/%d/%Y') }}</td>
+                <td align="right">{{ v.project }}</td>
+                <td>{{ v.sitelocation }}</td>
+                <td>{{ v.notes }}</td>
               </tr>
-              <tr>
-                <td>Caitlin</td>
-                <td>Wickline</td>
-                <td align="right">371362113</td>
-                <td>CaitlinWickline@gmail.com</td>
-                <td>N60</td>
-                <td>edu</td>
-                <td align="right">3/1/2014</td>
-                <td>Ocu veraguas</td>
-                <td>veraguas</td>
-                <td>bee allergy </td>
-              </tr>
-              <tr>
-                <td>Russell</td>
-                <td>Gin</td>
-                <td align="right">750514265</td>
-                <td>RussellGin@gmail.com</td>
-                <td>N60</td>
-                <td>edu</td>
-                <td align="right">3/1/2014</td>
-                <td>los positos, chiriqui</td>
-                <td>chiriqui</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Malika</td>
-                <td>Goupil</td>
-                <td align="right">989273678</td>
-                <td>MalikaGoupil@gmail.com</td>
-                <td>N60</td>
-                <td>Business</td>
-                <td align="right">3/1/2014</td>
-                <td>santa fe darien</td>
-                <td>darien</td>
-                <td>malaria area</td>
-              </tr>
-              <tr>
-                <td>Pedro</td>
-                <td>Grow</td>
-                <td align="right">192031221</td>
-                <td>PedroGrow@gmail.com</td>
-                <td>N61</td>
-                <td>Health</td>
-                <td align="center">########</td>
-                <td>rio hato, cocle</td>
-                <td>cocle</td>
-                <td>latex allergy</td>
-              </tr>
-              <tr>
-                <td>Arnoldo</td>
-                <td>Carver</td>
-                <td align="right">407713576</td>
-                <td>ArnoldoCarver@gmail.com</td>
-                <td>N61</td>
-                <td>edu</td>
-                <td align="center">########</td>
-                <td>hato chami, comarca nagbe bugle</td>
-                <td colspan="2">comarca ngabe bugle</td>
-              </tr>
-              <tr>
-                <td>Marta</td>
-                <td>Coutee</td>
-                <td align="right">674111647</td>
-                <td>MartaCoutee@gmail.com</td>
-                <td>N61</td>
-                <td>Business</td>
-                <td align="center">########</td>
-                <td>el tigre, comarca kuna yala</td>
-                <td>veraguas</td>
-                <td>peanut allergy</td>
-              </tr>
-              <tr>
-                <td>Althea</td>
-                <td>Nagel</td>
-                <td align="right">714220780</td>
-                <td>AltheaNagel@gmail.com</td>
-                <td>N62</td>
-                <td>Health</td>
-                <td align="right">8/8/2014</td>
-                <td>barretta, cocle</td>
-                <td>chiriqui</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Wendi</td>
-                <td>Barefoot</td>
-                <td align="right">256230835</td>
-                <td>WendiBarefoot@gmail.com</td>
-                <td>N62</td>
-                <td>edu</td>
-                <td align="right">8/8/2014</td>
-                <td>las minas, bocas del torro</td>
-                <td>darien</td>
-                <td>bee allergy </td>
-              </tr>
-              <tr>
-                <td>Jefferson</td>
-                <td>Novello</td>
-                <td align="right">924528312</td>
-                <td>JeffersonNovello@gmail.com</td>
-                <td>N62</td>
-                <td>Business</td>
-                <td align="right">8/8/2014</td>
-                <td>dupi , chiriqui</td>
-                <td>cocle</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kris</td>
-                <td>Due</td>
-                <td align="right">892606908</td>
-                <td>KrisDue@gmail.com</td>
-                <td>N62</td>
-                <td>edu</td>
-                <td align="right">8/8/2014</td>
-                <td>las tablas,  los santos</td>
-                <td>comarca ngabe bugle</td>
-                <td>malaria area</td>
-              </tr>
-              <tr>
-                <td>Olga</td>
-                <td>Crutcher</td>
-                <td align="right">903655182</td>
-                <td>OlgaCrutcher@gmail.com</td>
-                <td>N63</td>
-                <td>Business</td>
-                <td align="center">########</td>
-                <td>las minas, herrerra</td>
-                <td>veraguas</td>
-                <td>latex allergy</td>
-              </tr>
-              <tr>
-                <td>Nora</td>
-                <td>Pinter</td>
-                <td align="right">662320293</td>
-                <td>NoraPinter@gmail.com</td>
-                <td>N63</td>
-                <td>Health</td>
-                <td align="center">########</td>
-                <td>bella vista, colon</td>
-                <td>chiriqui</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Isabel</td>
-                <td>Speaker</td>
-                <td align="right">395079990</td>
-                <td>IsabelSpeaker@gmail.com</td>
-                <td>N63</td>
-                <td>edu</td>
-                <td align="center">########</td>
-                <td>tole, chiriqui</td>
-                <td>darien</td>
-                <td>peanut allergy</td>
-              </tr>
-              <tr>
-                <td>Latosha</td>
-                <td>Rothrock</td>
-                <td align="right">599722564</td>
-                <td>LatoshaRothrock@gmail.com</td>
-                <td>N63</td>
-                <td>Business</td>
-                <td align="center">########</td>
-                <td>isla grande, panama</td>
-                <td>cocle</td>
-                <td>bee allergy </td>
-              </tr>
-              <tr>
-                <td>Greta</td>
-                <td>Deckman</td>
-                <td align="right">129960536</td>
-                <td>GretaDeckman@gmail.com</td>
-                <td>N63</td>
-                <td>Health</td>
-                <td align="center">########</td>
-                <td>silico creek, bocas del toro</td>
-                <td colspan="2">comarca ngabe bugle</td>
-              </tr>
-              <tr>
-                <td>Marin</td>
-                <td>Bloss</td>
-                <td align="right">770115003</td>
-                <td>MarinBloss@gmail.com</td>
-                <td>N63</td>
-                <td>Health</td>
-                <td align="center">########</td>
-                <td>tugri, comarca ngabe bugle</td>
-                <td>veraguas</td>
-                <td>malaria area</td>
-              </tr>
-              <tr>
-                <td>Kimbra</td>
-                <td>Mcmackin</td>
-                <td align="right">537941344</td>
-                <td>KimbraMcmackin@gmail.com</td>
-                <td>N63</td>
-                <td>edu</td>
-                <td align="center">########</td>
-                <td>python centro, chiriqui</td>
-                <td>chiriqui</td>
-                <td>latex allergy</td>
-              </tr>
-              <tr>
-                <td>Hosea</td>
-                <td>Glantz</td>
-                <td align="right">355528806</td>
-                <td>HoseaGlantz@gmail.com</td>
-                <td>N64</td>
-                <td>Business</td>
-                <td align="center">########</td>
-                <td>bloss hill, comarca ngabe bugle </td>
-                <td>darien</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Kyong</td>
-                <td>Nigro</td>
-                <td align="right">484345503</td>
-                <td>KyongNigro@gmail.com</td>
-                <td>N64</td>
-                <td>Health</td>
-                <td align="center">########</td>
-                <td>barretta, cocle</td>
-                <td>cocle</td>
-                <td>peanut allergy</td>
-              </tr>
+                {% endfor %}
             </table>
             <p>&nbsp;</p>
            
