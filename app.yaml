@@ -18,16 +18,16 @@ handlers:
 
 - url: /admin.*
   script: handle_main.admin
-  login: admin
-  secure: always
+#  login: admin
+#  secure: always
 
 - url: /post/(.+)/medkit
   script: handle_main.app
 
 - url: /post/(.+)/.+
   script: handle_main.siteadmin
-  login: admin
-  secure: always
+#  login: admin
+#  secure: always
 
 - url: /.*
   script: handle_main.app
