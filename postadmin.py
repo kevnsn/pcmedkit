@@ -6,30 +6,30 @@ import render
 from forms import VolunteerForm
 from models import Volunteer, MedBox
 
-class main(webapp2.RequestHandler):
-    def get(self):
-        template_values = {
-            'position': 'Peace Corps Volunteer',
-            'verb': 'extremely enjoy'
-        }
-        html = render.page(self, "templates/siteadmin/home.html",template_values)
+class landing(webapp2.RequestHandler):
+    def get(self, post_code):
+        v = {'post_code': post_code}
+        html = render.page(self, "templates/postadmin/landing.html", v)
         self.response.out.write(html)
 
-class form(webapp2.RequestHandler):
-    def get(self):
-        template_values = {
-            'position': 'Peace Corps Volunteer',
-            'verb': 'extremely enjoy'
-        }
-        html = render.page(self, "templates/siteadmin/medbox_form.html",template_values)
+class supply_form(webapp2.RequestHandler):
+    def get(self, post_code):
+        v = {'post_code': post_code}
+        html = render.page(self, "templates/postadmin/supply_form.html", v)
         self.response.out.write(html)
 
-class boxform(webapp2.RequestHandler):
-    def get(self, site):
+class requests_table(webapp2.RequestHandler):
+    def get(self, post_code):
+        v = {'post_code': post_code}
+        html = render.page(self, "templates/postadmin/requests_table.html", v)
+        self.response.out.write(html)
+
+class medkit(webapp2.RequestHandler):
+    def get(self, post_code):
         v = {'vf': VolunteerForm(), 'path': self.request.path}
-        html = render.page(self, "templates/siteadmin/postsupplyform.html",v)
+        html = render.page(self, "templates/postadmin/assign_medkit.html",v)
         self.response.out.write(html)
-    def post(self, site):
+    def post(self, post_code):
         f = VolunteerForm(self.request.POST)
         new_v = Volunteer(
             first_name = f.first_name.data,
@@ -51,5 +51,5 @@ class boxform(webapp2.RequestHandler):
         )
         new_box.put()
         v = {'Volunteer': new_v, 'MedBox': new_box}
-        html = render.page(self, "templates/siteadmin/confirmation.html",v)
+        html = render.page(self, "templates/postadmin/confirmation.html",v)
         self.response.out.write(html)

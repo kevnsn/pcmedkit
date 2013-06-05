@@ -6,6 +6,7 @@ import jinja2
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 def page(handler, template_file, values):
+    values['path'] = handler.request.path
     template = jinja_env.get_template(template_file)
     return template.render(values)
 

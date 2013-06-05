@@ -21,10 +21,10 @@ handlers:
 #  login: admin
 #  secure: always
 
-- url: /post/(.+)/medkit
+- url: /post/(.+)/.+
   script: handle_main.app
 
-- url: /post/(.+)/.+
+- url: /post/(.+)
   script: handle_main.siteadmin
 #  login: admin
 #  secure: always

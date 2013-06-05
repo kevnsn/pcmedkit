@@ -23,8 +23,8 @@
     <!-- twitter bootstrap -->
     <script src="/js/bootstrap.min.js"></script>
     
-    <!-- filter table -->
-    <script type="text/javascript" src="js/jquery.table_filter.js"></script>
+{#    <!-- filter table -->#}
+{#    <script type="text/javascript" src="js/jquery.table_filter.js"></script>#}
     <!-- my code -->
     <script type="text/javascript" rel="js" src="/js/main.js"></script>
     {% endblock %}
@@ -47,7 +47,22 @@
     {% endblock %}
   </head>  
   <body>
-  	{%include "templates/navbar.html"%}
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container-fluid">
+              <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="brand" href="/">PC MedKit</a>
+              <div class="nav-collapse collapse">
+            {% block nav_list %}
+            {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
     
     <div class="container-fluid">
         {% block content %}
@@ -56,6 +71,4 @@
     </div>
     
   </body>
-  
-    {% include "templates/footer.html" %}
 </html>
