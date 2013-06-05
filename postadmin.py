@@ -6,14 +6,13 @@ import render
 from forms import VolunteerForm
 from models import Volunteer, MedBox
 
-class landing(webapp2.RequestHandler):
-    def get(self, post_code):
-        v = {'post_code': post_code}
-        html = render.page(self, "templates/postadmin/landing.html", v)
-        self.response.out.write(html)
 
 class supply_form(webapp2.RequestHandler):
     def get(self, post_code):
+        v = {'post_code': post_code}
+        html = render.page(self, "templates/postadmin/supply_form.html", v)
+        self.response.out.write(html)
+    def post(self, post_code):
         v = {'post_code': post_code}
         html = render.page(self, "templates/postadmin/supply_form.html", v)
         self.response.out.write(html)
@@ -26,7 +25,9 @@ class requests_table(webapp2.RequestHandler):
 
 class medkit(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'vf': VolunteerForm(), 'path': self.request.path}
+        v = {'vf': VolunteerForm(),
+             'path': self.request.path,
+             'post_code': post_code}
         html = render.page(self, "templates/postadmin/assign_medkit.html",v)
         self.response.out.write(html)
     def post(self, post_code):
@@ -50,6 +51,6 @@ class medkit(webapp2.RequestHandler):
             volunteers = [new_v.key()]
         )
         new_box.put()
-        v = {'Volunteer': new_v, 'MedBox': new_box}
+        v = {'Volunteer': new_v, 'MedBox': new_box, 'post_code': post_code}
         html = render.page(self, "templates/postadmin/confirmation.html",v)
         self.response.out.write(html)

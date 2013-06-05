@@ -21,13 +21,11 @@ handlers:
 #  login: admin
 #  secure: always
 
-- url: /post/(.+)/.+
-  script: handle_main.app
-
-- url: /post/(.+)
+- url: /post/(.+)/admin.*
   script: handle_main.siteadmin
 #  login: admin
 #  secure: always
+
 
 - url: /.*
   script: handle_main.app
