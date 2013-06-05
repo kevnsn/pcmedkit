@@ -8,4 +8,4 @@ MedBox_meta = model_form(MedBox, base_class=Form)
 Volunteer_meta = model_form(Volunteer, base_class=Form)
 
 class VolunteerForm(Volunteer_meta):
-    cos = DateTimeField('COS', format='%m/%d/%y')
+    cos = DateTimeField('COS', format='%m/%d/%Y')
