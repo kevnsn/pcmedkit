@@ -4,7 +4,7 @@ from datetime import datetime
 import webapp2
 import render
 from forms import VolunteerForm
-from models import Volunteer, MedKit, PostDefault
+from models import Volunteer, MedKit, PostDefault, SupplyRequest
 
 
 class supply_form(webapp2.RequestHandler):
@@ -18,8 +18,22 @@ class supply_form(webapp2.RequestHandler):
         self.response.out.write(html)
 
 class requests_table(webapp2.RequestHandler):
+    '''
+    Present a table to the post administrator with all requests and their status
+    '''
+    # supplies = db.ListProperty(db.Key)
+    # date = db.DateTimeProperty(required=False)
+    # quantities = db.ListProperty(int)
+    # delivery_event = db.ReferenceProperty(DeliveryEvent)
+    # status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
+    # status_notes = db.TextProperty(required=False)
+    # volunteer_notes = db.TextProperty(required=False)
+
     def get(self, post_code):
         v = {'post_code': post_code}
+        allrequests = SupplyRequest.all()
+        allrequests.order("-date")
+        v['allrequests'] = allrequests
         html = render.page(self, "templates/postadmin/requests_table.html", v)
         self.response.out.write(html)
 

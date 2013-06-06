@@ -13,43 +13,23 @@
                 <table style="padding:3em;" class="table">
                       <thead>
                         <tr>
-                          <th>#</th>
-                          <th>Date Submited</th>
-                          <th>Volunteer</th>
+                          <th>Date Submitted</th>
+                          <th>Delivery Event</th>
                           <th>Status</th>
-                          <th>Description</th>
+                          <th>Status Notes</th>
+                          <th>Volunteer Notes</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>John Smith</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>John Smith</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>John Smith</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>John Smith</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-
+                        {% for row in allrequests %}
+                          <tr>
+                            <td> {{ row.date }} </td>
+                            <td> {{ row.delivery_event }} </td>
+                            <td> {{ row.status }} </td>
+                            <td> {{ row.status_notes }} </td>
+                            <td> {{ row.volunteer_notes }} </td>
+                          </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
         </div>
