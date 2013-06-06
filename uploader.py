@@ -51,9 +51,9 @@ csv_to_db = {
         ('cos', date_handle),
         ('sitelocation', str),
         ('notes', str), #TextProperty vs StringProperty??
-        ('medboxs', empty_list),
+        ('medkits', empty_list),
         ],
-    "MedBox": [
+    "MedKit": [
         ('date_issued', date_handle),
         ('in_use', bool),
         ('volunteers', empty_list),

@@ -10,8 +10,8 @@
     <div class="span12" style="text-align: center">
         <div style="padding:2em; line-height: 2em;">
             <h1>ENTER MEDKIT CODE:</h1>
-            <form action="/post/{{ post_code }}/check_status" class="form-inline">
-            <input type="password" placeholder="MedKit Request Code">
+            <form action="/post/{{ post_code }}/medkit" method="POST" class="form-inline">
+            <input name="code" type="password" placeholder="MedKit Request Code">
             <input type="submit" value="Submit" class="btn" />
             </form>
         </div>

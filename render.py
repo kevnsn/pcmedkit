@@ -11,4 +11,6 @@ def page(handler, template_file, values):
     return template.render(values)
 
 def not_found(handler):
-    page(handler, '/templates/404.html')
+    html = page(handler, '/templates/404.html', {})
+    handler.response.out.write(html)
+

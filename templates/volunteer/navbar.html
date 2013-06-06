@@ -1,4 +1,4 @@
 <ul class="nav">
-  <li {% if nav == 'new_request' %}class="active"{% endif %}><a href="/post/{{ post_code }}/request">New Request</a></li>
-  <li {% if nav == 'check_status' %}class="active"{% endif %}><a href="/post/{{ post_code }}/check_status">Check Status</a></li>
+  <li {% if nav == 'new_request' %}class="active"{% endif %}><a href="/post/{{ post_code }}/request?k={{ mk }}">New Request</a></li>
+  <li {% if nav == 'check_status' %}class="active"{% endif %}><a href="/post/{{ post_code }}/check_status?k={{ mk }}">Check Status</a></li>
 </ul>

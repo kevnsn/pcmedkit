@@ -2,9 +2,10 @@
 {% block content %}
 
  <div class="row-fluid">
-    <div class="span12" style="text-align: center">
+    <div class="span12">
         <div style="padding:2em; line-height: 2em;">
-            <h1>REQUEST LOG</h1>
+            <h1>Hi {{ volunteer.first_name }} {{ volunteer.last_name }}!</h1>
+            <h1>REQUEST LOG for Box# {{ MedKit.key().id() }}</h1>
                 <table style="padding:3em;" class="table">
                       <thead>
                         <tr>

@@ -4,7 +4,7 @@ from datetime import datetime
 import webapp2
 import render
 from forms import VolunteerForm
-from models import Volunteer, MedBox
+from models import Volunteer, MedKit, PostDefault
 
 
 class supply_form(webapp2.RequestHandler):
@@ -31,26 +31,43 @@ class medkit(webapp2.RequestHandler):
         html = render.page(self, "templates/postadmin/assign_medkit.html",v)
         self.response.out.write(html)
     def post(self, post_code):
-        f = VolunteerForm(self.request.POST)
-        new_v = Volunteer(
-            first_name = f.first_name.data,
-            last_name = f.last_name.data,
-            phone = f.phone.data,
-            project = f.project.data,
-            sitelocation = f.sitelocation.data,
-            notes = f.notes.data,
-            cos = f.cos.data,
-            trainee_input = "foo",
-        )
-        new_v.put()
-        new_box = MedBox(
-            date_issued = datetime.now(),
-            in_use = True,
-            supply_requests = [],
-            post_default = None,
-            volunteers = [new_v.key()]
-        )
-        new_box.put()
-        v = {'Volunteer': new_v, 'MedBox': new_box, 'post_code': post_code}
-        html = render.page(self, "templates/postadmin/confirmation.html",v)
-        self.response.out.write(html)
+        post_def_record = PostDefault.all().filter('slug =', post_code)
+        # post_def_record = PostDefault.get_by_key_name(str(post_code))
+        # I haven't found an good way to write the key names for dev server bulk loader
+        # if you want to recreate production behavior inside dev server run the following commented-out code within the dev server "interactive console"
+        # from models import PostDefault
+        # for p in PostDefault.all():
+        #     p.key_name = p.slug
+        #     p.put()
+        #     print p.slug + " -- Done!"
+        if post_def_record != None:
+            f = VolunteerForm(self.request.POST)
+            if f.validate():
+                new_v = Volunteer(
+                    first_name = f.first_name.data,
+                    last_name = f.last_name.data,
+                    phone = f.phone.data,
+                    email = f.email.data,
+                    project = f.project.data,
+                    sitelocation = f.sitelocation.data,
+                    notes = f.notes.data,
+                    cos = f.cos.data,
+                    trainee_input = "",
+                    post_default = post_def_record,
+                )
+                new_v.put()
+                new_kit = MedKit(
+                    date_issued = datetime.now(),
+                    in_use = True,
+                    supply_requests = [],
+                    post_default = None,
+                    volunteer = new_v
+                )
+                new_kit.put()
+                v = {'Volunteer': new_v, 'MedKit': new_kit, 'post_code': post_code}
+                html = render.page(self, "templates/postadmin/confirmation.html",v)
+                self.response.out.write(html)
+            else:
+                self.response.out.write("invalid entry for one of the form items")
+        else:
+            render.not_found(self)

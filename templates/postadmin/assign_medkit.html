@@ -11,6 +11,7 @@
             <form action="{{ path }}" method="POST">
             {{ vf.first_name.label }}{{ vf.first_name }}
             {{ vf.last_name.label }}{{ vf.last_name }}
+            {{ vf.email.label }}{{ vf.email }}
             <label>Phone Number</label>{{ vf.phone }}
             <label>Project</label>{{ vf.project }}
             <label>COS</label>{{ vf.cos(class_="cos_input") }}

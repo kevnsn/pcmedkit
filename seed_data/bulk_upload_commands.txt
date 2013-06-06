@@ -1,12 +1,12 @@
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/DeliveryEvent.csv  --kind=DeliveryEvent --url=http://pcmedkit.appspot.com/_ah/remote_api
-appcfg.py upload_data --config_file=uploader.py --filename=seed_data/MedBox.csv  --kind=MedBox --url=http://pcmedkit.appspot.com/_ah/remote_api
+appcfg.py upload_data --config_file=uploader.py --filename=seed_data/MedKit.csv  --kind=MedKit --url=http://pcmedkit.appspot.com/_ah/remote_api
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/PostDefault.csv  --kind=PostDefault --url=http://pcmedkit.appspot.com/_ah/remote_api
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/Supply.csv  --kind=Supply --url=http://pcmedkit.appspot.com/_ah/remote_api
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/SupplyRequest.csv  --kind=SupplyRequest --url=http://pcmedkit.appspot.com/_ah/remote_api
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/Volunteer.csv  --kind=Volunteer --url=http://pcmedkit.appspot.com/_ah/remote_api
 
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/DeliveryEvent.csv  --kind=DeliveryEvent --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .
-appcfg.py upload_data --config_file=uploader.py --filename=seed_data/MedBox.csv  --kind=MedBox --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .
+appcfg.py upload_data --config_file=uploader.py --filename=seed_data/MedKit.csv  --kind=MedKit --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/PostDefault.csv  --kind=PostDefault --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/Supply.csv  --kind=Supply --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .
 appcfg.py upload_data --config_file=uploader.py --filename=seed_data/SupplyRequest.csv  --kind=SupplyRequest --url=http://localhost:8080/_ah/remote_api --application=dev~pcmedkit .

@@ -11,7 +11,7 @@ class Volunteer(db.Model):
     cos = db.DateTimeProperty(required=False)
     sitelocation = db.TextProperty(required=False)
     notes = db.TextProperty(required=False)
-    medboxs = db.ListProperty(db.Key)
+    medkits = db.ListProperty(db.Key)
 
 
 class DeliveryEvent(db.Model):
@@ -41,15 +41,15 @@ class PostDefault(db.Model):
     post = db.StringProperty(required=True)
 
 
-class MedBox(db.Model):
+class MedKit(db.Model):
     code = db.StringProperty(required=False)
     date_issued = db.DateTimeProperty(required=False)
     in_use = db.BooleanProperty(required=False)
-    volunteers = db.ListProperty(db.Key)
+    volunteer = db.ReferenceProperty(Volunteer)
     supply_requests = db.ListProperty(db.Key)
     post_default = db.ReferenceProperty(PostDefault)
     def put(self):
-        key = super(MedBox, self).put()
+        key = super(MedKit, self).put()
         if self.code is None:
             unique = False
             while unique == False:
@@ -60,10 +60,10 @@ class MedBox(db.Model):
                 rc1 = key_as_str[randint(0, key_length - 1)]
                 rc2 = key_as_str[randint(0, key_length - 1)]
                 code = "%s%s-%s-%s" % (rc1, rc2, rn1, rn2)
-                if MedBox.all().filter('code =', code).count() == 0:
+                if MedKit.all().filter('code =', code).count() == 0:
                     unique = True
             self.code = code
-            key = super(MedBox, self).put()
+            key = super(MedKit, self).put()
         return key
 
 

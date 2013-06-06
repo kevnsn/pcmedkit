@@ -4,7 +4,7 @@ from models import *
 
 from wtforms import BooleanField, TextField, validators, DateTimeField
 
-MedBox_meta = model_form(MedBox, base_class=Form)
+MedKit_meta = model_form(MedKit, base_class=Form)
 Volunteer_meta = model_form(Volunteer, base_class=Form)
 
 class VolunteerForm(Volunteer_meta):
