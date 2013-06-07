@@ -38,7 +38,7 @@ class PostDefault(db.Model):
     supplies = db.ListProperty(db.Key)
     post_admin = db.ListProperty(str)
     region = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
-    post = db.StringProperty(required=True)
+    post_name = db.StringProperty(required=True)
 
 
 class MedKit(db.Model):
