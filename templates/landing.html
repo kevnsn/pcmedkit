@@ -38,7 +38,7 @@
                 <span style="margin-right: 1em;">SELECT POST: </span>
                 <select id="post">
                     <option value=""></option>
-                    {% for p in PostDefault.all().order('post') %}<option value="{{ p.slug }}">{{ p.post }}</option>{% endfor %}
+                    {% for p in PostDefault.all().order('post_name') %}<option value="{{ p.slug }}">{{ p.post_name }}</option>{% endfor %}
                 </select>
             </h1>
             <h1><button class="btn btn-primary btn-large region_go" data-url_ending="/medkit">I AM A VOLUNTEER</button>
