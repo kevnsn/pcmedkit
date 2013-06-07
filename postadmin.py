@@ -3,19 +3,38 @@ import os
 from datetime import datetime
 import webapp2
 import render
-from forms import VolunteerForm
-from models import Volunteer, MedKit, PostDefault, SupplyRequest
+from forms import VolunteerForm, SupplyForm
+from models import Volunteer, MedKit, PostDefault, SupplyRequest, Supply
 
 
 class supply_form(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'post_code': post_code}
+        v = {'sf': SupplyForm(),
+             'path': self.request.path,
+             'post_code': post_code}
+        cursupply = Supply.all()
+        cursupply.order('name')
+        v['supplies'] = cursupply
         html = render.page(self, "templates/postadmin/supply_form.html", v)
         self.response.out.write(html)
     def post(self, post_code):
-        v = {'post_code': post_code}
-        html = render.page(self, "templates/postadmin/supply_form.html", v)
-        self.response.out.write(html)
+        post_def_record = PostDefault.all().filter('slug =', post_code)
+        if post_def_record != None:
+            f = SupplyForm(self.request.POST)
+            if f.validate():
+                new_s = Supply(
+                    name = f.name.data,
+                    description = f.description.data,
+                    maximum = f.maximum.data,
+                )
+                new_s.put()
+                redirurl = '/post/' + post_code + '/admin/supplies'
+                self.redirect(redirurl)
+            else:
+                self.response.out.write("invalid entry click the 'back button'")
+                # TODO should redirect to a proper error
+        else:
+            render.not_found(self)
 
 class requests_table(webapp2.RequestHandler):
     '''
@@ -32,8 +51,10 @@ class requests_table(webapp2.RequestHandler):
     def get(self, post_code):
         v = {'post_code': post_code}
         allrequests = SupplyRequest.all()
+        allmeddata  = MedKit.all()
         allrequests.order("-date")
         v['allrequests'] = allrequests
+        v['allmeddata'] = allmeddata 
         html = render.page(self, "templates/postadmin/requests_table.html", v)
         self.response.out.write(html)
 

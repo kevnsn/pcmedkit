@@ -9,38 +9,34 @@
  <div class="row-fluid">
     <div class="span12" style="text-align: center">
         <div style="padding:2em; line-height: 2em;">
-            <h1>Supplies</h1>
+            <h1>Available Supplies</h1>
 
                     <table style="padding:3em;" class="table">
                       <thead>
                         <tr>
                           <th>Name</th>
-                          <th>Max Quantity</th>
                           <th>Description</th>
                         </tr>
                       </thead>
                       <tbody>
+                        {% for row in supplies %}
+                          <tr>
+                            <td> {{ row.name }} </td>
+                            <td> {{ row.description }} </td>
+                            <td> {{ row.maximum }} </td>
+                          </tr>
+                        {% endfor %}
                         <tr>
-                          <td>Bandaid</td>
-                          <td>1</td>
-                          <td>Box</td>
-                        </tr>
-                        <tr>
-                          <td>Bandaid</td>
-                          <td>1</td>
-                          <td>Box</td>
-                        </tr>
-                        <tr>
-                          <td>Bandaid</td>
-                          <td>1</td>
-                          <td>Box</td>
+                          <th>Add</th>
+                          <th>Supplies</th>
                         </tr>
                         <tr>
                           <td colspan="3">
-                                <form action="/post/{{ post_code }}/admin/supplies" class="form-inline" method="POST">
-                                <input type="text" placeholder="Name">
-                                <input type="text" class="input-mini" placeholder="Quantity">
-                                <button class="btn"><i class="icon-plus"></i></button>
+                                <form action="{{ path }}" class="form-inline" method="POST">
+                                  {{ sf.name.label }}{{ sf.name }}
+                                  {{ sf.description.label }}{{ sf.description }}
+                                  {{ sf.maximum.label }}{{ sf.maximum }}
+                                  <br><input type="submit" class="btn" value="submit">
                                 </form>
                           </td>
                         </tr>
