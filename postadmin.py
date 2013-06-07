@@ -28,8 +28,8 @@ class supply_form(webapp2.RequestHandler):
                     maximum = f.maximum.data,
                 )
                 new_s.put()
-                redirurl = '/post/' + post_code + '/admin/supplies'
-                self.redirect(redirurl)
+                re_url = "/post/%s/admin/supplies" % (post_code, mk)
+                self.redirect(re_url)
             else:
                 self.response.out.write("invalid entry click the 'back button'")
                 # TODO should redirect to a proper error
