@@ -13,6 +13,7 @@
                 <table style="padding:3em;" class="table">
                       <thead>
                         <tr>
+                          <th>ID</th>
                           <th>Date Submitted</th>
                           <th>Delivery Event</th>
                           <th>Status</th>
@@ -23,7 +24,8 @@
                       <tbody>
                         {% for row in allrequests %}
                           <tr>
-                            <td> {{ row.date }} </td>
+                            <td> {{ row.key().id() }} </td>
+                            <td> {{ row.date.strftime('%d/%m/%Y') }} </td>
                             <td> {{ row.delivery_event }} </td>
                             <td> {{ row.status }} </td>
                             <td> {{ row.status_notes }} </td>
