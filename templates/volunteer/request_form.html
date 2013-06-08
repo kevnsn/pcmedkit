@@ -10,11 +10,26 @@
 
    var descriptions = [{% for s in Supply.all().order('name') %}{% if loop.index != 0 %},{% endif %}'x {{ s.description|e }}'{% endfor %}]
     $(document).ready(function () {
+
+       // Inserts the description of the quantity (AKA Supply.description), whenever the selector changes
         $('.sup_sel').change(function() {
         var des_index = parseInt($($(this).find('option:selected')).data('des'));
         $("#"+ $(this).attr('id') + "_des").html(descriptions[des_index])
         });
 
+      // add another supply request to the list
+        $("#add_sr").click(function(){
+            var sup_row = $($(".sr_row")[0]).clone()
+            $('#supply_requests').append(sup_row)
+
+            })
+        // remove supply request from the list
+        $('#sr_table').on('click', '.remove_sr', function(event) {
+            var cell = $(this).parent();
+            var row = $(cell).parent()
+            $(row).remove()
+            });
+        
         $('.de_sel').change(function() {
         var de_des = $($(this).find('option:selected')).data('des');
         $("#delivery_event_notes").html('<strong>Delivery Notes:</strong><br> ' + de_des)
@@ -34,23 +49,30 @@
 {% block content %}
 
  <div class="row-fluid">
-    <div id="sup_req_zone" class="span12">
-
-
+    <div class="span12">
             <form action="/{{ post_code }}/{{ kit_id }}/request"  method="POST">
             <h2>Request Supplies</h2>
-            <span style="white-space: nowrap">
-                    <select id="s1" name="s1" class="sup_sel">
-                        {% for s in Supply.all().order('name') %}
-                            <option value="{{ s.key() }}" data-des="{{ loop.index }}">{{ s.name }}</option>
-
-                        {% endfor %}
-                    </select>
-                    <input name="s1_qty" type="text" class="input-mini" placeholder="Qty">
-                    <span id="s1_des"></span>
-
-            </span>
-
+            <table id="sr_table" style="text-align:left">
+                <tr style="text-align:left"><th colspan=2>Supply</th><th>Qty</th><th></th></tr>
+                <tbody id="supply_requests">
+                    <tr class="sr_row">
+                        <td><a href="#" class="remove_sr btn btn-mini"><i class="icon-minus"></i></a></td>
+                        <td>
+                            <select id="s1" name="s1" class="sup_sel">
+                            {% for s in Supply.all().order('name') %}
+                                <option value="{{ s.key() }}" data-des="{{ loop.index }}">{{ s.name }}</option>
+                            {% endfor %}
+                            </select>
+                        </td>
+                        <td><input name="s1_qty" type="text" class="input-mini" placeholder="Qty"></td>
+                        <td id="s1_des"></td>
+                    </tr>
+            </tbody>
+            <tr>
+                <td colspan="3" style="text-align:right"><a href="#" class="btn btn-mini" id="add_sr"><i class="icon-plus"></i></a></td>
+                <td></td>
+                </tr>
+            </table>
                 <h2>Choose Delivery Method</h2>
                 <select id="delivery_event" name="delivery_event" class="de_sel">
                     <option value=""></option>
@@ -68,7 +90,6 @@
 <br>
 <br>
 <br>
-            <button class="btn btn-small"><i class="icon-plus"></i></button>
             <input type="submit" value="Submit" class="btn" />
             </form>
         </div>
