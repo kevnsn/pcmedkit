@@ -1,8 +1,9 @@
 import webapp2
 import render
-from models import MedKit, PostDefault, Supply, DeliveryEvent
+from models import MedKit, PostDefault, Supply, DeliveryEvent, SupplyRequest
 from forms import SupplyRequestForm
 from google.appengine.ext import db
+from google.appengine.api.datastore import Key
 
 def simple_validate(v):
     medkit = db.get(v['mk'])
@@ -56,7 +57,10 @@ class request_form(webapp2.RequestHandler):
         v = {}
         v['post_code'] = post_code
         v['kit_id'] = kit_id
-        v['mk'] = self.request.get('k')
+        mk_key = self.request.get('k')
+        v['mk'] = mk_key
+        # get the medkit for this key
+        medkit = MedKit.all().filter('__key__ =', Key(mk_key)).get()
         v = simple_validate(v)
         if v['valid']:
             v['nav'] = 'request_form'
@@ -65,7 +69,11 @@ class request_form(webapp2.RequestHandler):
             # v['medkit_delivery_events'] = [db.get(de) for de in v['MedKit'].delivery_events]
             # v['post_delivery_events'] = [db.get(de) for de in v['MedKit'].post_default.delivery_events]
             v['delivery_events'] = DeliveryEvent.all()
-
+            # get supply requests for this medkit ordered by date
+            all_requests = SupplyRequest.all()
+            # all_requests.filter('__key__ IN ', medkit.supply_requests)
+            all_requests.order('-date')
+            v['requests'] = all_requests.run()
             html = render.page(self, "templates/volunteer/request_form.html", v)
             self.response.out.write(html)
         else:
