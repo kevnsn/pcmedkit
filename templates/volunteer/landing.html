@@ -1,20 +1,35 @@
 {% extends "/templates/base.html" %}
 {% block title %}PC MedKit{% endblock %}
-{% block nav_list %}
-{% include "/templates/volunteer/navbar.html" %}
+{% block head %}
+    {{ super() }}
+    <script type="text/javascript">
+    function validatelogin() {
+        if ($("#post_code").val() == "") {
+            alert("Please select a post!");
+            return false;
+        }
+    };
+    </script>
 {% endblock %}
-
+{% block navbar %}{% endblock %}
 {% block content %}
 
- <div class="row-fluid">
-    <div class="span12" style="text-align: center">
-        <div style="padding:2em; line-height: 2em;">
-            <h1>ENTER MEDKIT CODE:</h1>
-            <form action="/post/{{ post_code }}/medkit" method="POST" class="form-inline">
+ <div class="row-fluid" style="margin-top: 5%">
+    <div class="span2 offset4 alrt">
+        <h1>Log In</h1>
+        <form action="/" method="POST" onsubmit="return validatelogin();" >
+
+            <label for="post_code">POST:</label>
+            <select id="post_code" name="post_code">
+            <option value=""></option>
+            {% for p in PostDefault.all().order('post_name') %}<option value="{{ p.slug }}">{{ p.post_name }}</option>{% endfor %}
+            </select>
+            <br>
+            <label for="code">MEDKIT CODE:</label>
             <input name="code" type="password" placeholder="MedKit Request Code">
-            <input type="submit" value="Submit" class="btn" />
-            </form>
-        </div>
+            <br>
+            <input style="float: right" type="submit" value="Submit" class="btn btn-primary" />
+        </form>
     </div>
  </div>
 

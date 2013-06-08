@@ -47,6 +47,7 @@
     {% endblock %}
   </head>  
   <body>
+  {% block navbar %}
         <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container-fluid">
@@ -55,7 +56,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="brand" href="/">PC MedKit</a>
+              {% block brand %}<a class="brand" href="/">PC MedKit</a>{% endblock %}
               <div class="nav-collapse collapse">
             {% block nav_list %}
             {% endblock %}
@@ -63,7 +64,7 @@
             </div>
           </div>
         </div>
-    
+  {% endblock %}
     <div class="container-fluid">
         {% block content %}
             {{ dumb_content }}

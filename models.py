@@ -13,7 +13,6 @@ class Volunteer(db.Model):
     notes = db.TextProperty(required=False)
     medkits = db.ListProperty(db.Key)
 
-
 class DeliveryEvent(db.Model):
     name = db.StringProperty(required=True)
     date = db.DateTimeProperty(required=False)
@@ -39,6 +38,7 @@ class PostDefault(db.Model):
     post_admin = db.ListProperty(str)
     region = db.StringProperty(required=True, choices=set(["AFR", "IAP", "EMA", "Other"]))
     post_name = db.StringProperty(required=True)
+    delivery_events = db.ListProperty(db.Key)
 
 
 class MedKit(db.Model):
@@ -48,6 +48,7 @@ class MedKit(db.Model):
     volunteer = db.ReferenceProperty(Volunteer)
     supply_requests = db.ListProperty(db.Key)
     post_default = db.ReferenceProperty(PostDefault)
+    delivery_events = db.ListProperty(db.Key)
     def put(self):
         key = super(MedKit, self).put()
         if self.code is None:
@@ -65,5 +66,6 @@ class MedKit(db.Model):
             self.code = code
             key = super(MedKit, self).put()
         return key
+
 
 

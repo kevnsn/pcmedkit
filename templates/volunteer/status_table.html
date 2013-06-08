@@ -1,4 +1,9 @@
-{% extends "/templates/volunteer/landing.html" %}
+{% extends "/templates/base.html" %}
+{% block nav_list %}
+    {% include "/templates/volunteer/navbar.html" %}
+{% endblock %}
+{% block brand %}<a class="brand" href="#">MedKit #{{ kit_id }}</a>{% endblock %}
+
 {% block content %}
 
  <div class="row-fluid">

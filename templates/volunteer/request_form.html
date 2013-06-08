@@ -1,23 +1,74 @@
-{% extends "/templates/volunteer/landing.html" %}
+{% extends "/templates/base.html" %}
+{% block nav_list %}
+    {% include "/templates/volunteer/navbar.html" %}
+{% endblock %}
+{% block brand %}<a class="brand" href="#">MedKit #{{ kit_id }}</a>{% endblock %}
+{% block head %}
+
+    {{ super() }}
+   <script type="text/javascript">
+
+   var descriptions = [{% for s in Supply.all().order('name') %}{% if loop.index != 0 %},{% endif %}'x {{ s.description|e }}'{% endfor %}]
+    $(document).ready(function () {
+        $('.sup_sel').change(function() {
+        var des_index = parseInt($($(this).find('option:selected')).data('des'));
+        $("#"+ $(this).attr('id') + "_des").html(descriptions[des_index])
+        });
+
+        $('.de_sel').change(function() {
+        var de_des = $($(this).find('option:selected')).data('des');
+        $("#delivery_event_notes").html('<strong>Delivery Notes:</strong><br> ' + de_des)
+        })
+
+    });
+    </script>
+    <style>
+    .de_sel {
+        width: 400px;
+    }
+    #delivery_event_notes {
+        font-style: italic;
+    }
+    </style>
+{% endblock %}
 {% block content %}
 
  <div class="row-fluid">
-    <div class="span12" style="text-align: center">
-        <div style="padding:2em; line-height: 2em;">
-            <h1>Request Stuff:</h1>
-            <form action="/post/{{ post_code }}/request" class="form-inline" method="POST">
-            <select>
-                <option value="Bandaid">Bandaid</option>
-                <option value="Bandaid">Bandaid</option>
-                <option value="Bandaid">Bandaid</option>
-                <option value="Bandaid">Bandaid</option>
-            </select>
+    <div id="sup_req_zone" class="span12">
 
-            <input type="text" class="input-mini" placeholder="Quantity">  Box
+
+            <form action="/{{ post_code }}/{{ kit_id }}/request"  method="POST">
+            <h2>Request Supplies</h2>
+            <span style="white-space: nowrap">
+                    <select id="s1" name="s1" class="sup_sel">
+                        {% for s in Supply.all().order('name') %}
+                            <option value="{{ s.key() }}" data-des="{{ loop.index }}">{{ s.name }}</option>
+
+                        {% endfor %}
+                    </select>
+                    <input name="s1_qty" type="text" class="input-mini" placeholder="Qty">
+                    <span id="s1_des"></span>
+
+            </span>
+
+                <h2>Choose Delivery Method</h2>
+                <select id="delivery_event" name="delivery_event" class="de_sel">
+                    <option value=""></option>
+                        {% for de in delivery_events %}
+                            <option value="{{ de.key() }}" data-des="{{ de.notes|e }}">{{ de.name|e }}</option>
+                        {% endfor %}
+                    <option value="other">Other</option>
+                </select>
+                <br><span id="delivery_event_notes"></span>
+            <br>
+            <br>
+            {{ srf.volunteer_notes.label }}{{ srf.volunteer_notes }}
+
+
 <br>
 <br>
 <br>
-            <button class="btn"><i class="icon-plus"></i></button>
+            <button class="btn btn-small"><i class="icon-plus"></i></button>
             <input type="submit" value="Submit" class="btn" />
             </form>
         </div>

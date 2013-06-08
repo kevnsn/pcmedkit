@@ -9,12 +9,8 @@ from models import Volunteer, MedKit, PostDefault, SupplyRequest, Supply
 
 class supply_form(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'sf': SupplyForm(),
-             'path': self.request.path,
-             'post_code': post_code}
-        cursupply = Supply.all()
-        cursupply.order('name')
-        v['supplies'] = cursupply
+        v = {'sf': SupplyForm(), 'post_code': post_code}
+        v['supplies'] = Supply.all().order('name')
         html = render.page(self, "templates/postadmin/supply_form.html", v)
         self.response.out.write(html)
     def post(self, post_code):
@@ -28,7 +24,10 @@ class supply_form(webapp2.RequestHandler):
                     maximum = f.maximum.data,
                 )
                 new_s.put()
-                re_url = "/post/%s/admin/supplies" % (post_code, mk)
+                pd = post_def_record.get()
+                pd.supplies.append(new_s.key())
+                pd.put()
+                re_url = "/admin/%s/supplies" % (post_code)
                 self.redirect(re_url)
             else:
                 self.response.out.write("invalid entry click the 'back button'")
@@ -50,11 +49,8 @@ class requests_table(webapp2.RequestHandler):
 
     def get(self, post_code):
         v = {'post_code': post_code}
-        allrequests = SupplyRequest.all()
-        allmeddata  = MedKit.all()
-        allrequests.order("-date")
-        v['allrequests'] = allrequests
-        v['allmeddata'] = allmeddata 
+        v['allrequests'] = SupplyRequest.all().order("-date")
+        v['allmeddata'] = MedKit.all()
         html = render.page(self, "templates/postadmin/requests_table.html", v)
         self.response.out.write(html)
 
@@ -67,14 +63,6 @@ class medkit(webapp2.RequestHandler):
         self.response.out.write(html)
     def post(self, post_code):
         post_def_record = PostDefault.all().filter('slug =', post_code)
-        # post_def_record = PostDefault.get_by_key_name(str(post_code))
-        # I haven't found an good way to write the key names for dev server bulk loader
-        # if you want to recreate production behavior inside dev server run the following commented-out code within the dev server "interactive console"
-        # from models import PostDefault
-        # for p in PostDefault.all():
-        #     p.key_name = p.slug
-        #     p.put()
-        #     print p.slug + " -- Done!"
         if post_def_record != None:
             f = VolunteerForm(self.request.POST)
             if f.validate():
@@ -88,15 +76,15 @@ class medkit(webapp2.RequestHandler):
                     notes = f.notes.data,
                     cos = f.cos.data,
                     trainee_input = "",
-                    post_default = post_def_record,
                 )
                 new_v.put()
                 new_kit = MedKit(
                     date_issued = datetime.now(),
                     in_use = True,
                     supply_requests = [],
-                    post_default = None,
-                    volunteer = new_v
+                    delivery_events = [],
+                    volunteer = new_v,
+                    post_default = post_def_record.get(),
                 )
                 new_kit.put()
                 v = {'Volunteer': new_v, 'MedKit': new_kit, 'post_code': post_code}

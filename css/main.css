@@ -2,3 +2,19 @@ body {
 	padding-top:40px;
 }
 
+.alrt {
+
+    /*background-color: #D9EDF7;*/
+    border: 1px solid #000000;
+    /*padding: 8px 35px 8px 14px;*/
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    border-radius: 6px 6px 6px 6px;
+    font-size: 18px;
+    font-weight: 200;
+    line-height: 30px;
+    margin-bottom: 30px;
+    padding: 60px;
+
+}
+
