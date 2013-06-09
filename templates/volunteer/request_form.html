@@ -55,19 +55,6 @@
 
     });
     </script>
-    <script type="text/javascript">  
-            $(document).ready(function(){
-                $("#request tr:odd").addClass("odd");
-                $("#request tr:not(.odd)").hide();
-                $("#request tr:first-child").show();
-            
-                $("#request tr.odd").click(function(){
-                    $(this).next("tr").toggle();
-                    $(this).find(".arrow").toggleClass("up");
-                });
-                //$("#request").jExpand();
-            });
-        </script>
 {% endblock %}
 {% block content %}
 
@@ -107,9 +94,6 @@
           <br>
             <input type="submit" value="Submit" class="btn" />
             </form>
-
-            <h1>REQUEST LOG for {{ volunteer.first_name }} {{ volunteer.last_name }} (Kit# {{ MedKit.key().id() }})</h1>
-            {% include "/templates/request_table.html" %}
         </div>
     </div>
  </div>
