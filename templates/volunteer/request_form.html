@@ -20,7 +20,7 @@
            var order = $(selector).attr('name').split("_")[1];
            $("#description_"+ order).html(descriptions[des_index]);
            var max_options = "";
-            for (var i=1;i<max;i++) {
+            for (var i=1;i<=max;i++) {
                 max_options += '<option value="' + i + '">' + i + '</option>'
             };
            $('select[name="qty_' + order + '"]').html(max_options);
@@ -36,7 +36,7 @@
             var last_row = $(".sr_row").last();
             var new_row = $(last_row).clone();
             var new_row_selector = $(new_row.find("select"));
-            var new_row_qty = $(new_row.find("input"));
+            var new_row_qty = $(new_row.find(".qty_sel"));
             var new_row_description = $(new_row.find(".qty_description"));
             var next = parseInt(new_row_selector.attr('name').split("_")[1]) + 1;
             new_row_selector.attr("name", "supply_" + String(next));
@@ -108,6 +108,9 @@
     table td.minus{
         vertical-align: top;
         padding-top: 3px;
+    }
+    .qty_sel {
+        width: 50px;
     }
     </style>
 {% endblock %}
