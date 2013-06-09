@@ -171,8 +171,8 @@
                             <tbody>
                               {% for sup in row.request_details %}
                               <tr>
-                                <td> {{ sup['sply'].descriptions }}<strong>{{ sup['sply'].name }}</strong> </td>
-                                <td> {{ sup['qty'] }} </td>
+                                <td><strong>{{ sup['sply'].name }}</strong> </td>
+                                <td> {{ sup['qty'] }} (x {{ sup['sply'].description }})</td>
                               </tr>
                               {% endfor %}
                             </tbody>
