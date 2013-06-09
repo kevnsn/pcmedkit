@@ -8,7 +8,6 @@
     {{ super() }}
    <script type="text/javascript">
    var descriptions = [{% for s in Supply.all().order('name') %}{% if loop.index != 0 %},{% endif %}'x {{ s.description|e }}'{% endfor %}];
-
     $(document).ready(function () {
 
        // Inserts the description of the quantity (AKA Supply.description), whenever the selector changes
@@ -69,31 +68,6 @@
                 //$("#request").jExpand();
             });
         </script>
-    <style type="text/css">
-         #request { border-collapse:collapse;}
-         #request h4 { margin:0px; padding:0px;}
-         #request img { float:right;}
-         #request ul { margin:10px 0 10px 40px; padding:0px;}
-         #request th { background:#7CB8E2 url(header_bkg.png) repeat-x scroll center left; color:#fff; padding:7px 15px; text-align:left;}
-         #request td { background:#C7DDEE none repeat-x scroll center left; color:#000; padding:7px 15px; }
-         #request tr.odd td { background:#fff url(row_bkg.png) repeat-x scroll center left; cursor:pointer; }
-         #request div.arrow { background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
-         #request div.up { background-position:0px 0px;}
-
-    .de_sel {
-        width: 400px;
-    }
-    #delivery_event_notes {
-        font-style: italic;
-    }
-    table td.minus{
-        vertical-align: top;
-        padding-top: 3px;
-    }
-    .qty_sel {
-        width: 50px;
-    }
-    </style>
 {% endblock %}
 {% block content %}
 
@@ -135,39 +109,7 @@
             </form>
 
             <h1>REQUEST LOG for {{ volunteer.first_name }} {{ volunteer.last_name }} (Kit# {{ MedKit.key().id() }})</h1>
-                <table style="padding:3em;" class="table" id="request">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Requested Items</th>
-                      <th>Date Submitted</th>
-                      <th>Delivery Event</th>
-                      <th>Status</th>
-                      <th>Status Notes</th>
-                      <th>Volunteer Notes</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for row in requests %}
-                      <tr>
-                        <td> {{ row.key().id() }} </td>
-                        <td>
-                              {% for sup in row.request_details %}
-                              <strong>{{ sup['qty'] }}</strong>  {{ sup['sply'].name }}  ({{ sup['sply'].description }})<br>
-                              {% endfor %}
-                        </td>
-                        <td> {{ row.date.strftime('%d/%m/%Y') }} </td>
-                        <td> {{ row.delivery_event }} </td>
-                        <td> {{ row.status }} </td>
-                        <td> {{ row.status_notes }} </td>
-                        <td> {{ row.volunteer_notes }} </td>
-                      </tr>
-                      <tr>
-
-
-                    {% endfor %}
-                  </tbody>
-             </table>
+            {% include "/templates/request_table.html" %}
         </div>
     </div>
  </div>

@@ -5,6 +5,7 @@ from forms import SupplyRequestForm, DeliveryEventForm
 from google.appengine.ext import db
 from google.appengine.api.datastore import Key
 from datetime import datetime
+import utilities
 
 def simple_validate(v):
     medkit = db.get(v['mk'])
@@ -48,6 +49,7 @@ class status(webapp2.RequestHandler):
         v = simple_validate(v)
         if v['valid']:
             v['nav'] = 'status'
+            v['requests'] = utilities.sr_improver(v['MedKit'].supply_requests)
             html = render.page(self, "templates/volunteer/status_table.html", v)
             self.response.out.write(html)
         else:
@@ -68,22 +70,7 @@ class request_form(webapp2.RequestHandler):
             # v['medkit_delivery_events'] = [db.get(de) for de in v['MedKit'].delivery_events]
             # v['post_delivery_events'] = [db.get(de) for de in v['MedKit'].post_default.delivery_events]
             v['delivery_events'] = DeliveryEvent.all()
-            # get supply requests for this medkit ordered by date
-            # v['requests'] = SupplyRequest.all().order('-date') # insert later -->  .filter('__key__ IN ', medkit.supply_requests)
-            sply_requests = [db.get(sr_key) for sr_key in v['MedKit'].supply_requests]
-            sorted_sply_requests = sorted(sply_requests, key=lambda sr: sr.date, reverse=True)
-            improved_supply_requests = []
-            for sr in sorted_sply_requests:
-                index = 0
-                request_details = []
-                for supply in sr.supplies:
-                    supply_rec = db.get(supply)
-                    quantity = sr.quantities[index]
-                    request_details.append({'sply': supply_rec, "qty": quantity})
-                    index += 1
-                sr.request_details = request_details
-                improved_supply_requests.append(sr)
-            v['requests'] = improved_supply_requests
+            v['requests'] = utilities.sr_improver(v['MedKit'].supply_requests)
             html = render.page(self, "templates/volunteer/request_form.html", v)
             self.response.out.write(html)
         else:

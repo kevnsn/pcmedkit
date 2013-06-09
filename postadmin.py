@@ -5,6 +5,7 @@ import webapp2
 import render
 from forms import VolunteerForm, SupplyForm
 from models import Volunteer, MedKit, PostDefault, SupplyRequest, Supply
+import utilities
 
 
 class supply_form(webapp2.RequestHandler):
@@ -49,10 +50,19 @@ class requests_table(webapp2.RequestHandler):
 
     def get(self, post_code):
         v = {'post_code': post_code}
-        v['allrequests'] = SupplyRequest.all().order("-date")
-        v['allmeddata'] = MedKit.all()
-        html = render.page(self, "templates/postadmin/requests_table.html", v)
-        self.response.out.write(html)
+        q = PostDefault.all().filter("slug =", post_code.lower())
+        if q.count() > 0:
+            all_requests = []
+            all_medkits = MedKit.all().filter("post_default =", q.get().key())
+            for mk in all_medkits:
+                all_requests += mk.supply_requests
+            v['requests'] = utilities.sr_improver(all_requests)
+            v['allmeddata'] = all_medkits
+            html = render.page(self, "templates/postadmin/requests_table.html", v)
+            self.response.out.write(html)
+        else:
+            self.response.out.write("Post not found")
+
 
 class medkit(webapp2.RequestHandler):
     def get(self, post_code):

@@ -10,30 +10,7 @@
     <div class="span12" style="text-align: center">
         <div style="padding:2em; line-height: 2em;">
             <h1>REQUESTS</h1>
-                <table style="padding:3em;" class="table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Date Submitted</th>
-                          <th>Delivery Event</th>
-                          <th>Status</th>
-                          <th>Status Notes</th>
-                          <th>Volunteer Notes</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for row in allrequests %}
-                          <tr>
-                            <td> {{ row.key().id() }} </td>
-                            <td> {{ row.date.strftime('%d/%m/%Y') }} </td>
-                            <td> {{ row.delivery_event }} </td>
-                            <td> {{ row.status }} </td>
-                            <td> {{ row.status_notes }} </td>
-                            <td> {{ row.volunteer_notes }} </td>
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
+            {% include "/templates/request_table.html" %}
 
 
 

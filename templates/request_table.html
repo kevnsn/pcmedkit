@@ -1,0 +1,33 @@
+<table style="padding:3em;" class="table" id="request">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Requested Items</th>
+      <th>Date Submitted</th>
+      <th>Delivery Event</th>
+      <th>Status</th>
+      <th>Status Notes</th>
+      <th>Volunteer Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in requests %}
+      <tr>
+        <td> {{ row.key().id() }} </td>
+        <td>
+              {% for sup in row.request_details %}
+              <strong>{{ sup['qty'] }}</strong>  {{ sup['sply'].name }}  ({{ sup['sply'].description }})<br>
+              {% endfor %}
+        </td>
+        <td> {{ row.date.strftime('%d/%m/%Y') }} </td>
+        <td> {{ row.delivery_event }} </td>
+        <td> {{ row.status }} </td>
+        <td> {{ row.status_notes }} </td>
+        <td> {{ row.volunteer_notes }} </td>
+      </tr>
+      <tr>
+
+
+    {% endfor %}
+  </tbody>
+</table>

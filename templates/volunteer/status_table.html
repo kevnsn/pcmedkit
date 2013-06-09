@@ -10,44 +10,8 @@
     <div class="span12">
         <div style="padding:2em; line-height: 2em;">
             <h1>Hi {{ volunteer.first_name }} {{ volunteer.last_name }}!</h1>
-            <h1>REQUEST LOG for Box# {{ MedKit.key().id() }}</h1>
-                <table style="padding:3em;" class="table">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Date Submited</th>
-                          <th>Status</th>
-                          <th>Description</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-                        <tr>
-                          <td>1</td>
-                          <td>12/12/1900</td>
-                          <td>Filled</td>
-                          <td>1 Bandaid</td>
-                        </tr>
-
-                      </tbody>
-                    </table>
+            <h1>REQUEST LOG for Kit# {{ MedKit.key().id() }}</h1>
+            {% include "/templates/request_table.html" %}
         </div>
     </div>
  </div>
