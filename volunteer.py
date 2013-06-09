@@ -35,7 +35,7 @@ class landing(webapp2.RequestHandler):
         if medkit != None:
             m_k = str(medkit.key())
             m_id = str(medkit.key().id())
-            re_url = "/%s/%s/check_status?k=%s" % (post_code, m_id, m_k)
+            re_url = "/%s/%s/status?k=%s" % (post_code, m_id, m_k)
             self.redirect(re_url)
         else:
             self.response.out.write("Not Found.  Maybe you typed the MedKit code in wrong?")
@@ -111,7 +111,7 @@ class request_form(webapp2.RequestHandler):
             new_sr.put()
             v['MedKit'].supply_requests.append(new_sr.key())
             v['MedKit'].put()
-            redirect = "/%s/%s/request?k=%s" % (post_code, kit_id, v['mk'])
+            redirect = "/%s/%s/status?k=%s" % (post_code, kit_id, v['mk'])
             self.redirect(redirect)
         else:
             self.response.write.out('something unexpected happened')

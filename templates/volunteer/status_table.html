@@ -1,8 +1,7 @@
 {% extends "/templates/base.html" %}
-{% block nav_list %}
-    {% include "/templates/volunteer/navbar.html" %}
-{% endblock %}
-{% block brand %}<a class="brand" href="#">MedKit #{{ kit_id }}</a>{% endblock %}
+{% block nav_list %}{% endblock %}
+{% block brand %}<a class="brand" href="/{{ post_code }}/{{ kit_id }}/status?k={{ mk }}">MedKit #{{ kit_id }}</a>{% endblock %}
+
 
 {% block content %}
 
@@ -12,6 +11,9 @@
             <h1>Hi {{ volunteer.first_name }} {{ volunteer.last_name }}!</h1>
             <h1>REQUEST LOG for Kit# {{ MedKit.key().id() }}</h1>
             {% include "/templates/request_table.html" %}
+            <div style="text-align: right;">
+                <a href="/{{ post_code }}/{{ kit_id }}/request?k={{ mk }}" class="btn btn-primary">New Supply Request</a>
+            </div>
         </div>
     </div>
  </div>

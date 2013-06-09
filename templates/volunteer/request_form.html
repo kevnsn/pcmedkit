@@ -1,8 +1,6 @@
 {% extends "/templates/base.html" %}
-{% block nav_list %}
-    {% include "/templates/volunteer/navbar.html" %}
-{% endblock %}
-{% block brand %}<a class="brand" href="#">MedKit #{{ kit_id }}</a>{% endblock %}
+{% block nav_list %}{% endblock %}
+{% block brand %}<a class="brand" href="/{{ post_code }}/{{ kit_id }}/status?k={{ mk }}">MedKit #{{ kit_id }}</a>{% endblock %}
 {% block head %}
 
     {{ super() }}
@@ -62,7 +60,7 @@
     <div class="span12">
           <form action="/{{ post_code }}/{{ kit_id }}/request"  method="POST">
           <input type="text" style="display: none" value="{{ MedKit.key() }}" name="mk">
-            <h2>Request Supplies</h2>
+            <h2>Supply Request Form</h2>
             <table id="sr_table">
                 <tr style="text-align:center"><th colspan=2>Supply</th><th>Qty</th><th></th></tr>
                 <tbody id="supply_requests">

@@ -6,7 +6,7 @@ import render
 app = webapp2.WSGIApplication([
                                (r'/(.+)/(\d+)',volunteer.status),
                                (r'/(.+)/(\d+)/request',volunteer.request_form),
-                               (r'/(.+)/(\d+)/check_status',volunteer.status),
+                               (r'/(.+)/(\d+)/status',volunteer.status),
                                (r'/(.+)',volunteer.landing),
                                ('/',volunteer.landing),
                                ], debug=True)
