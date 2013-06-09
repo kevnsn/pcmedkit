@@ -4,6 +4,7 @@ from models import MedKit, PostDefault, Supply, DeliveryEvent, SupplyRequest
 from forms import SupplyRequestForm, DeliveryEventForm
 from google.appengine.ext import db
 from google.appengine.api.datastore import Key
+from datetime import datetime
 
 def simple_validate(v):
     medkit = db.get(v['mk'])
@@ -68,10 +69,62 @@ class request_form(webapp2.RequestHandler):
             # v['post_delivery_events'] = [db.get(de) for de in v['MedKit'].post_default.delivery_events]
             v['delivery_events'] = DeliveryEvent.all()
             # get supply requests for this medkit ordered by date
-            v['requests'] = SupplyRequest.all().order('-date') # insert later -->  .filter('__key__ IN ', medkit.supply_requests)
+            # v['requests'] = SupplyRequest.all().order('-date') # insert later -->  .filter('__key__ IN ', medkit.supply_requests)
+            sply_requests = [db.get(sr_key) for sr_key in v['MedKit'].supply_requests]
+            sorted_sply_requests = sorted(sply_requests, key=lambda sr: sr.date, reverse=True)
+            improved_supply_requests = []
+            for sr in sorted_sply_requests:
+                index = 0
+                request_details = []
+                for supply in sr.supplies:
+                    supply_rec = db.get(supply)
+                    quantity = sr.quantities[index]
+                    request_details.append({'sply': supply_rec, "qty": quantity})
+                    index += 1
+                sr.request_details = request_details
+                improved_supply_requests.append(sr)
+            v['requests'] = improved_supply_requests
             html = render.page(self, "templates/volunteer/request_form.html", v)
             self.response.out.write(html)
         else:
             render.not_found(self)
     def post(self, post_code, kit_id):
-        self.response.write.out('havent worked this out yet')
+        v = {'post_code': post_code,
+             'kit_id': kit_id,
+             'mk': self.request.get("mk")}
+        v = simple_validate(v)
+        if v['valid']:
+            # class SupplyRequest(db.Model):
+            #    supplies = db.ListProperty(db.Key)
+            #    date = db.DateTimeProperty(required=False)
+            #    quantities = db.ListProperty(int)
+            #    delivery_event = db.ReferenceProperty(DeliveryEvent)
+            #    status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
+            #    status_notes = db.TextProperty(required=False)
+            #    volunteer_notes = db.TextProperty(required=False)
+            supplies = []
+            quantities = []
+            # PR AKA Post Reqest Dictionary
+            PR = self.request.POST
+            for post_item in PR:
+                if post_item.split("_")[0] == 'supply':
+                    supply = db.get(PR[post_item])
+                    supplies.append(supply.key())
+                    qty_find = "qty_" + post_item.split("_")[-1]
+                    quantities.append(int(PR[qty_find]))
+            new_sr = SupplyRequest(
+                supplies = supplies,
+                quantities = quantities,
+                date = datetime.now(),
+                delivery_event = None,
+                status = "Requested",
+            )
+            if PR['volunteer_notes'] != "":
+                new_sr.volunteer_notes = PR['volunteer_notes']
+            new_sr.put()
+            v['MedKit'].supply_requests.append(new_sr.key())
+            v['MedKit'].put()
+            redirect = "/%s/%s/request?k=%s" % (post_code, kit_id, v['mk'])
+            self.redirect(redirect)
+        else:
+            self.response.write.out('something unexpected happened')
