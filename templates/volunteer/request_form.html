@@ -7,32 +7,71 @@
 
     {{ super() }}
    <script type="text/javascript">
-   var descriptions = [{% for s in Supply.all().order('name') %}{% if loop.index != 0 %},{% endif %}'x {{ s.description|e }}'{% endfor %}]
+   var descriptions = [{% for s in Supply.all().order('name') %}{% if loop.index != 0 %},{% endif %}'x {{ s.description|e }}'{% endfor %}];
+
     $(document).ready(function () {
 
        // Inserts the description of the quantity (AKA Supply.description), whenever the selector changes
-        $('.sup_sel').change(function() {
-        var des_index = parseInt($($(this).find('option:selected')).data('des'));
-        $("#"+ $(this).attr('id') + "_des").html(descriptions[des_index])
+       function update_supply_description(selector){
+
+           var selected = $(selector).find('option:selected');
+           var des_index = parseInt($(selected).data('des'));
+           var max =  parseInt($(selected).data('max'));
+           var order = $(selector).attr('name').split("_")[1];
+           $("#description_"+ order).html(descriptions[des_index]);
+           var max_options = "";
+            for (var i=1;i<max;i++) {
+                max_options += '<option value="' + i + '">' + i + '</option>'
+            };
+           $('select[name="qty_' + order + '"]').html(max_options);
+
+       };
+        update_supply_description($($(".sup_sel")[0]))
+        $('#sr_table').on('change', '.sup_sel', function(event) {
+            update_supply_description(this);
         });
 
       // add another supply request to the list
         $("#add_sr").click(function(){
-            var sup_row = $($(".sr_row")[0]).clone()
-            $('#supply_requests').append(sup_row)
-
-            })
+            var last_row = $(".sr_row").last();
+            var new_row = $(last_row).clone();
+            var new_row_selector = $(new_row.find("select"));
+            var new_row_qty = $(new_row.find("input"));
+            var new_row_description = $(new_row.find(".qty_description"));
+            var next = parseInt(new_row_selector.attr('name').split("_")[1]) + 1;
+            new_row_selector.attr("name", "supply_" + String(next));
+            new_row_qty.attr("name", "qty_" + String(next));
+            new_row_description.attr("id", "description_" + String(next));
+            new_row_description.html("");
+            $('#supply_requests').append(new_row);
+            });
         // remove supply request from the list
         $('#sr_table').on('click', '.remove_sr', function(event) {
             var cell = $(this).parent();
-            var row = $(cell).parent()
-            $(row).remove()
+            var row = $(cell).parent();
+            $(row).remove();
             });
-        
+        // dynamic Delivery Notes... "Other" corresponds to Custom Delivery Event Form
+        function update_delivery_notes(selector) {
+            var selector = $(selector)
+            var selected = $(selector.find('option:selected'));
+            if (selected.val() == 'other') {
+                $("#delivery_event_notes").hide();
+                $("#custom_delivery_event_form").show();
+            }
+            else {
+            var description =  selected.data('des');
+            var date =  selected.data('date');
+            $("#delivery_event_notes").show();
+            $("#custom_delivery_event_form").hide();
+            $("#delivery_event_notes").html('<strong>Date:</strong> ' + date + '<br><strong>Description:</strong> ' + description);
+            };
+        };
+        update_delivery_notes($("#delivery_event"));
         $('.de_sel').change(function() {
-        var de_des = $($(this).find('option:selected')).data('des');
-        $("#delivery_event_notes").html('<strong>Delivery Notes:</strong><br> ' + de_des)
-        })
+            update_delivery_notes(this);
+        });
+
 
     });
     </script>
@@ -59,12 +98,16 @@
          #request tr.odd td { background:#fff url(row_bkg.png) repeat-x scroll center left; cursor:pointer; }
          #request div.arrow { background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
          #request div.up { background-position:0px 0px;}
-    
+
     .de_sel {
         width: 400px;
     }
     #delivery_event_notes {
         font-style: italic;
+    }
+    table td.minus{
+        vertical-align: top;
+        padding-top: 3px;
     }
     </style>
 {% endblock %}
@@ -72,50 +115,57 @@
 
  <div class="row-fluid">
     <div class="span12">
-            <form action="/{{ post_code }}/{{ kit_id }}/request"  method="POST">
+          <form action="/{{ post_code }}/{{ kit_id }}/request"  method="POST">
             <h2>Request Supplies</h2>
-            <table id="sr_table" style="text-align:left">
-                <tr style="text-align:left"><th colspan=2>Supply</th><th>Qty</th><th></th></tr>
+            <table id="sr_table">
+                <tr style="text-align:center"><th colspan=2>Supply</th><th>Qty</th><th></th></tr>
                 <tbody id="supply_requests">
                     <tr class="sr_row">
-                        <td><a href="#" class="remove_sr btn btn-mini"><i class="icon-minus"></i></a></td>
+                        <td class="minus"><a href="#" class="remove_sr btn btn-small"><i class="icon-minus"></i></a></td>
                         <td>
-                            <select id="s1" name="s1" class="sup_sel">
+                            <select name="supply_1" class="sup_sel">
                             {% for s in Supply.all().order('name') %}
-                                <option value="{{ s.key() }}" data-des="{{ loop.index }}">{{ s.name }}</option>
+                                <option value="{{ s.key() }}" data-des="{{ loop.index }}" data-max="{{ s.maximum }}">{{ s.name }}</option>
                             {% endfor %}
                             </select>
                         </td>
-                        <td><input name="s1_qty" type="text" class="input-mini" placeholder="Qty"></td>
-                        <td id="s1_des"></td>
+                        <td>
+                            <select name="qty_1" class="qty_sel">
+                                <option val="1">1</option>
+                            </select>
+                        </td>
+                        <td id="description_1" class="qty_description"></td>
                     </tr>
             </tbody>
             <tr>
-                <td colspan="3" style="text-align:right"><a href="#" class="btn btn-mini" id="add_sr"><i class="icon-plus"></i></a></td>
+                <td colspan="3" style="text-align:right"><a href="#" class="btn btn-small" id="add_sr"><i class="icon-plus"></i></a></td>
                 <td></td>
                 </tr>
             </table>
                 <h2>Choose Delivery Method</h2>
                 <select id="delivery_event" name="delivery_event" class="de_sel">
-                    <option value=""></option>
                         {% for de in delivery_events %}
-                            <option value="{{ de.key() }}" data-des="{{ de.notes|e }}">{{ de.name|e }}</option>
+                            <option value="{{ de.key() }}" data-des="{{ de.notes|e }}" data-date="{{ de.date.strftime("%m/%d/%Y") }}">{{ de.name|e }}</option>
                         {% endfor %}
                     <option value="other">Other</option>
                 </select>
                 <br><span id="delivery_event_notes"></span>
+                    <span id="custom_delivery_event_form" style="display: none;">
+                        <strong>Create a Custom Delivery Method:</strong>
+                        <label>Delivery Method Name:</label>{{ def.name }}
+                        <label>Date:</label>{{ def.date }}
+                        <label>Delivery Method Description:</label>{{ def.notes }}
+                    </span>
             <br>
             <br>
             {{ srf.volunteer_notes.label }}{{ srf.volunteer_notes }}
-
-
-<br>
-<br>
-<br>
+            <br>
+            <br>
+            <br>
             <input type="submit" value="Submit" class="btn" />
             </form>
 
-            <h1>REQUEST LOG for {{ volunteer.first_name }} {{ volunteer.last_name }} (Box# {{ MedKit.key().id() }})</h1>
+            <h1>REQUEST LOG for {{ volunteer.first_name }} {{ volunteer.last_name }} (Kit# {{ MedKit.key().id() }})</h1>
                 <table style="padding:3em;" class="table" id="request">
                   <thead>
                     <tr>
