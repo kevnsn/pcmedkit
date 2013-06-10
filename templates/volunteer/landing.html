@@ -22,16 +22,17 @@
             <label for="post_code">POST:</label>
             <select id="post_code" name="post_code">
             <option value=""></option>
-            {% for p in PostDefault.all().order('post_name') %}<option value="{{ p.slug }}">{{ p.post_name }}</option>{% endfor %}
+            {% for p in PostDefault.all().order('post_name') %}<option value="{{ p.slug }}" {% if p.slug == post_code %}selected="selected"{% endif %}>{{ p.post_name }}</option>{% endfor %}
             </select>
             <br>
             <label for="code">MEDKIT CODE:</label>
             <input name="code" type="password" placeholder="MedKit Request Code">
             <br>
             <input style="float: right" type="submit" value="Submit" class="btn btn-primary" />
+            <a href="/admin">Admin?</a>
         </form>
+
     </div>
  </div>
-
 
 {% endblock %}

@@ -15,7 +15,7 @@ siteadmin = webapp2.WSGIApplication([(r'/admin/(.+)/supplies', postadmin.supply_
                                (r'/admin/(.+)/requests', postadmin.requests_table),
                                (r'/admin/(.+)/assign_medkit', postadmin.medkit),
                                (r'/admin/(.+)', postadmin.requests_table),
-                               (r'/admin', postadmin.requests_table),
+                               (r'/admin', postadmin.landing),
                                ], debug=True)
 
 not_found = webapp2.WSGIApplication([('/.*', render.not_found)], debug=True)

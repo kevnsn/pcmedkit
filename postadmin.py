@@ -8,6 +8,13 @@ from models import Volunteer, MedKit, PostDefault, SupplyRequest, Supply
 import utilities
 
 
+class landing(webapp2.RequestHandler):
+    def get(self, post_code=""):
+        v = {'PostDefault': PostDefault}
+        html = render.page(self, "templates/postadmin/landing.html", v)
+        self.response.out.write(html)
+
+
 class supply_form(webapp2.RequestHandler):
     def get(self, post_code):
         v = {'sf': SupplyForm(), 'post_code': post_code}
