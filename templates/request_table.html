@@ -20,7 +20,7 @@
               {% endfor %}
         </td>
         <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
-        <td> {{ row.delivery_event }} </td>
+        <td> {{ row.delivery_event.name }} </td>
         <td> {{ row.status }} </td>
         <td> {{ row.status_notes }} </td>
         <td> {{ row.volunteer_notes }} </td>

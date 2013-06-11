@@ -3,7 +3,14 @@
 {% block nav_list %}
 {% include "/templates/postadmin/navbar.html" %}
 {% endblock %}
-
+{% block head %}
+    {{ super() }}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".cos_input").datepicker();
+    })
+</script>
+{% endblock %}
 {% block content %}
      <div class="row-fluid">
         <div class="span12">
