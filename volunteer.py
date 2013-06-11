@@ -27,7 +27,7 @@ class landing(webapp2.RequestHandler):
     def get(self, post_code=""):
         v = {'PostDefault': PostDefault}
         if post_code != "":
-            v['post_code'] = post_code.lower().replace("/", "")
+            v['post_code'] = post_code.lower().replace("/")
         html = render.page(self, "templates/volunteer/landing.html", v)
         self.response.out.write(html)
     def post(self):
@@ -51,7 +51,8 @@ class status(webapp2.RequestHandler):
         v = simple_validate(v)
         if v['valid']:
             v['nav'] = 'status'
-            v['requests'] = utilities.sr_improver(v['MedKit'].supply_requests)
+            request_query = SupplyRequest.all().filter('medkit =', v["MedKit"]).order("-date")
+            v['requests'] = utilities.sr_improver(request_query)
             html = render.page(self, "templates/volunteer/status_table.html", v)
             self.response.out.write(html)
         else:
@@ -68,11 +69,6 @@ class request_form(webapp2.RequestHandler):
             v['nav'] = 'request_form'
             v['Supply'] = Supply
             v['srf'] = SupplyRequestForm()
-            v['def'] = DeliveryEventForm()
-            # v['medkit_delivery_events'] = [db.get(de) for de in v['MedKit'].delivery_events]
-            # v['post_delivery_events'] = [db.get(de) for de in v['MedKit'].post_default.delivery_events]
-            v['delivery_events'] = DeliveryEvent.all()
-            v['requests'] = utilities.sr_improver(v['MedKit'].supply_requests)
             html = render.page(self, "templates/volunteer/request_form.html", v)
             self.response.out.write(html)
         else:
@@ -107,12 +103,12 @@ class request_form(webapp2.RequestHandler):
                 date = datetime.now(),
                 delivery_event = None,
                 status = "Requested",
+                medkit = v["MedKit"],
+                post_default = v["MedKit"].post_default
             )
             if PR['volunteer_notes'] != "":
                 new_sr.volunteer_notes = PR['volunteer_notes']
             new_sr.put()
-            v['MedKit'].supply_requests.append(new_sr.key())
-            v['MedKit'].put()
             redirect = "/%s/%s/status?k=%s" % (post_code, kit_id, v['mk'])
             self.redirect(redirect)
         else:

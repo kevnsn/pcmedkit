@@ -15,11 +15,11 @@
       <tr>
         <td> {{ row.key().id() }} </td>
         <td>
-              {% for sup in row.request_details %}
-              <strong>{{ sup['qty'] }}</strong>  {{ sup['sply'].name }}  ({{ sup['sply'].description }})<br>
+              {% for sup in row.supply_objects %}
+              <strong>{{ row.quantities[loop.index-1] }}</strong>  {{ sup.name }}  ({{ sup.description }})<br>
               {% endfor %}
         </td>
-        <td> {{ row.date.strftime('%d/%m/%Y') }} </td>
+        <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
         <td> {{ row.delivery_event }} </td>
         <td> {{ row.status }} </td>
         <td> {{ row.status_notes }} </td>

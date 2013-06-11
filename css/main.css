@@ -28,17 +28,17 @@ body {
  #request div.arrow { background:transparent url(arrows.png) no-repeat scroll 0px -16px; width:16px; height:16px; display:block;}
  #request div.up { background-position:0px 0px;}
 
-    .de_sel {
-        width: 400px;
-    }
-    #delivery_event_notes {
-        font-style: italic;
-    }
-    table td.minus{
-        vertical-align: top;
-        padding-top: 3px;
-    }
-    .qty_sel {
-        width: 50px;
-    }
+.de_sel {
+    width: 400px;
+}
+#delivery_event_notes {
+    font-style: italic;
+}
+table td.minus{
+    vertical-align: top;
+    padding-top: 3px;
+}
+.qty_sel {
+    width: 50px;
+}
 

@@ -11,7 +11,6 @@ class Volunteer(db.Model):
     cos = db.DateTimeProperty(required=False)
     sitelocation = db.TextProperty(required=False)
     notes = db.TextProperty(required=False)
-    medkits = db.ListProperty(db.Key)
 
 class DeliveryEvent(db.Model):
     name = db.StringProperty(required=True)
@@ -22,15 +21,6 @@ class Supply(db.Model):
     name = db.StringProperty(required=True)
     description = db.StringProperty(required=True)
     maximum = db.IntegerProperty(required=False)
-
-class SupplyRequest(db.Model):
-    supplies = db.ListProperty(db.Key)
-    date = db.DateTimeProperty(required=False)
-    quantities = db.ListProperty(int)
-    delivery_event = db.ReferenceProperty(DeliveryEvent)
-    status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
-    status_notes = db.TextProperty(required=False)
-    volunteer_notes = db.TextProperty(required=False)
 
 class PostDefault(db.Model):
     slug = db.StringProperty(required=True)
@@ -66,6 +56,17 @@ class MedKit(db.Model):
             self.code = code
             key = super(MedKit, self).put()
         return key
+
+class SupplyRequest(db.Model):
+    supplies = db.ListProperty(db.Key)
+    date = db.DateTimeProperty(required=False)
+    quantities = db.ListProperty(int)
+    delivery_event = db.ReferenceProperty(DeliveryEvent)
+    status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
+    status_notes = db.TextProperty(required=False)
+    volunteer_notes = db.TextProperty(required=False)
+    medkit = db.ReferenceProperty(MedKit)
+    post_default = db.ReferenceProperty(PostDefault)
 
 
 

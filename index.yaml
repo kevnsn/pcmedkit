@@ -1,0 +1,18 @@
+indexes:
+
+- kind: PostDefault
+  properties:
+  - name: region
+  - name: post_name
+
+- kind: SupplyRequest
+  properties:
+  - name: medkit
+  - name: date
+    direction: desc
+
+- kind: SupplyRequest
+  properties:
+  - name: post_default
+  - name: date
+    direction: desc

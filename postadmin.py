@@ -59,12 +59,8 @@ class requests_table(webapp2.RequestHandler):
         v = {'post_code': post_code}
         q = PostDefault.all().filter("slug =", post_code.lower())
         if q.count() > 0:
-            all_requests = []
-            all_medkits = MedKit.all().filter("post_default =", q.get().key())
-            for mk in all_medkits:
-                all_requests += mk.supply_requests
+            all_requests = SupplyRequest.all().filter("post_default =", q.get())
             v['requests'] = utilities.sr_improver(all_requests)
-            v['allmeddata'] = all_medkits
             html = render.page(self, "templates/postadmin/requests_table.html", v)
             self.response.out.write(html)
         else:
@@ -98,7 +94,6 @@ class medkit(webapp2.RequestHandler):
                 new_kit = MedKit(
                     date_issued = datetime.now(),
                     in_use = True,
-                    supply_requests = [],
                     delivery_events = [],
                     volunteer = new_v,
                     post_default = post_def_record.get(),
