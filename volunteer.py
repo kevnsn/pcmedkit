@@ -27,7 +27,7 @@ class landing(webapp2.RequestHandler):
     def get(self, post_code=""):
         v = {'PostDefault': PostDefault}
         if post_code != "":
-            v['post_code'] = post_code.lower().replace("/")
+            v['post_code'] = post_code.lower().replace("/", "")
         html = render.page(self, "templates/volunteer/landing.html", v)
         self.response.out.write(html)
     def post(self):
