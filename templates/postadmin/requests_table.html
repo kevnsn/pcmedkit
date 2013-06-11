@@ -4,69 +4,61 @@
 {% include "/templates/postadmin/navbar.html" %}
 {% endblock %}
 
+{% block head %}
+    {{ super() }}
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("tr.supply_request").click(function(){
+            window.location = $(this).data('url');
+        })
+    })
+</script>
+{% endblock %}
+
 {% block content %}
 
 <div class="row-fluid">
     <div class="span12" style="text-align: center">
         <div style="padding:2em; line-height: 2em;">
-            <h1>REQUESTS</h1>
-            {% include "/templates/request_table.html" %}
+            <h1>ALL REQUESTS FOR {{ post_default.post_name.upper() }}</h1>
+<table class="table" id="request_table">
+  <thead>
+    <tr>
+
+      <th>ID</th>
+      <th>Date Submitted</th>
+      <th>Volunteer Name</th>
+      <th>Requested Items</th>
+
+      <th>Delivery Event</th>
+      <th>Status</th>
+      <th>Status Notes</th>
+      <th>Volunteer Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in requests %}
+      <tr class="supply_request" data-url="/admin/{{ post_code }}/update?k={{ row.key() }}">
+        <td> {{ row.key().id() }} </td>
+        <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
+        <td> {{ row.medkit.volunteer.last_name }}, {{ row.medkit.volunteer.first_name }}</td>
+        <td>
+              {% for sup in row.supply_objects %}
+              <strong>{{ row.quantities[loop.index-1] }}</strong>  {{ sup.name }}  ({{ sup.description }})<br>
+              {% endfor %}
+        </td>
+
+        <td> {{ row.delivery_event.name }} </td>
+        <td> {{ row.status }} </td>
+        <td> {{ row.status_notes }} </td>
+        <td> {{ row.volunteer_notes }} </td>
+      </tr>
+      <tr>
 
 
-
-{#<script type="text/javascript">#}
-{#    %(document).ready(function(){#}
-{#           // dynamic Delivery Notes... "Other" corresponds to Custom Delivery Event Form#}
-{#        function update_delivery_notes(selector) {#}
-{#            var selector = $(selector)#}
-{#            var selected = $(selector.find('option:selected'));#}
-{#            if (selected.val() == 'other') {#}
-{#                $("#delivery_event_notes").hide();#}
-{#                $("#custom_delivery_event_form").show();#}
-{#            }#}
-{#            else {#}
-{#            var description =  selected.data('des');#}
-{#            var date =  selected.data('date');#}
-{#            $("#delivery_event_notes").show();#}
-{#            $("#custom_delivery_event_form").hide();#}
-{#            $("#delivery_event_notes").html('<strong>Date:</strong> ' + date + '<br><strong>Description:</strong> ' + description);#}
-{#            };#}
-{#        };#}
-{#        update_delivery_notes($("#delivery_event"));#}
-{#        $('.de_sel').change(function() {#}
-{#            update_delivery_notes(this);#}
-{#        });#}
-{#    #}
-{#    })#}
-{#</script>#}
-
-{#                  <h2>Choose Delivery Method</h2>#}
-{#                <select id="delivery_event" name="delivery_event" class="de_sel">#}
-{#                        {% for de in delivery_events %}#}
-{#                            <option value="{{ de.key() }}" data-des="{{ de.notes|e }}" data-date="{{ de.date.strftime("%m/%d/%Y") }}">{{ de.name|e }}</option>#}
-{#                        {% endfor %}#}
-{#                    <option value="other">Other</option>#}
-{#                </select>#}
-{#                <br><span id="delivery_event_notes"></span>#}
-{#                    <span id="custom_delivery_event_form" style="display: none;">#}
-{#                        <strong>Create a Custom Delivery Method:</strong>#}
-{#                        <label>Delivery Method Name:</label>{{ def.name }}#}
-{#                        <label>Date:</label>{{ def.date }}#}
-{#                        <label>Delivery Method Description:</label>{{ def.notes }}#}
-{#                    </span>#}
-{#            <br>#}
-{#            <br>#}
-
-{#            <br>#}
-{#            <br>#}
-{#            <br>       #}
-
-
-
-
-
-
-
+    {% endfor %}
+  </tbody>
+</table>
 
 
         </div>

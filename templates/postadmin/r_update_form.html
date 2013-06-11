@@ -1,0 +1,91 @@
+{% extends "/templates/base.html" %}
+{% block title %}PC MedKit - Post Admin{% endblock %}
+{% block nav_list %}
+{% include "/templates/postadmin/navbar.html" %}
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+<script type="text/javascript">
+    $(document).ready(function(){
+           // dynamic Delivery Notes... "Other" corresponds to Custom Delivery Event Form
+        function update_delivery_notes(selector) {
+            var selector = $(selector)
+            var selected = $(selector.find('option:selected'));
+            if (selected.val() == 'Other') {
+                $("#delivery_event_notes").hide();
+                $("#custom_delivery_event_form").show();
+            }
+            else {
+            var description =  selected.data('des');
+            var date =  selected.data('date');
+            $("#delivery_event_notes").show();
+            $("#custom_delivery_event_form").hide();
+            $("#delivery_event_notes").html('<strong>Date:</strong> ' + date + '<br><strong>Description:</strong> ' + description);
+            };
+        };
+        update_delivery_notes($("#delivery_event"));
+        $('.de_sel').change(function() {
+            update_delivery_notes(this);
+        });
+
+    })
+</script>
+{% endblock %}
+
+{% block content %}
+
+ <div class="row-fluid">
+    <div class="span6">
+        <h1>Request #{{ supply_request.key().id() }} from {{ supply_request.medkit.volunteer.last_name }}, {{ supply_request.medkit.volunteer.first_name }}</h1>
+
+        <h3>MedKit #{{ supply_request.medkit.key().id() }}</h3>
+
+        <h3>Submited: {{ supply_request.date.strftime("%m/%d/%Y") }}</h3>
+
+        <h3>Items</h3>
+            <ul style="list-style: none">
+            {% for s in supply_request.supply_objects %}
+            <li><strong>{{ supply_request.quantities[loop.index-1] }}</strong> {{ s.name }} {{ s.description }}</li>
+            {% endfor %}
+            </ul>
+
+        <strong>Volunteer Notes:</strong> <em>{{ supply_request.volunteer_notes }}</em>
+        <form action="/admin/{{ post_code }}/update" method="post">
+        <input name="k" style="display: none" value="{{ supply_request.key() }}">
+        <h3>Delivery Method</h3>
+            {% if supply_request.delivery_event %}
+                {% set dek = supply_request.delivery_event.key() %}
+            {% else %}
+                {% set dek = None %}
+            {% endif %}
+            <select id="delivery_event" name="delivery_event" class="de_sel">
+                    {% for de in delivery_events %}
+                        <option {% if dek == de.key() %}selected="selected" {% endif %} value="{{ de.key() }}" data-des="{{ de.notes|e }}" data-date="{{ de.date.strftime("%m/%d/%Y") }}">{{ de.name|e }}</option>
+                    {% endfor %}
+                <option value="Other" {% if dek == None %}selected="selected" {% endif %}>Other</option>
+            </select>
+            <br>
+            <span id="delivery_event_notes"></span>
+
+            <span id="custom_delivery_event_form" style="display: none;">
+                <strong>Custom Delivery Method:</strong>
+                <label>Delivery Method Name:</label>{{ def.name }}
+                <label>Date:</label>{{ def.date(class="datepicker") }}
+                <label>Delivery Method Description:</label>{{ def.notes }}
+            </span>
+
+        <h3>Status</h3>
+            <select name="status">{% for sc in status_choices %}<option value="{{ sc }}"{% if sc == supply_request.status %} selected="selected"{% endif %}>{{ sc }}</option>{% endfor %}</select>
+
+        <h3>Status Notes:</h3>
+            <textarea name="status_notes">{{ supply_request.status_notes }}</textarea>
+        <br>
+        <br>
+        <input type="submit" value="save" class="btn">
+        </form>
+        </div>
+    </div>
+ </div>
+
+{% endblock %}
