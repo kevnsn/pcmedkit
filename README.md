@@ -5,7 +5,7 @@ Demo Links:
 [Jerey Sinefeld's Antartica Medkit](https://pcmedkit.appspot.com/ant/21036/status?k=agpzfnBjbWVka2l0cg4LEgZNZWRLaXQYrKQBDA)
 MedKit Code: NZ-967-505
 
-[Antartica Post Admin](https://pcmedkit.appspot.com/admin/ant)
+[Antartica Post Admin](https://pcmedkit.appspot.com/admin/ant)  
 
 To create your development server database navigate to the app root and run the following command (Replacing 'localhost:8080' with your dev server IP:PORT)
 
