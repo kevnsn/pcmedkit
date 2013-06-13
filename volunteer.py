@@ -1,11 +1,11 @@
 import webapp2
 import render
-from models import MedKit, PostDefault, Supply, DeliveryEvent, SupplyRequest
-from forms import SupplyRequestForm, DeliveryEventForm
+from models import MedKit, PostDefault, Supply, SupplyRequest
+from forms import SupplyRequestForm
 from google.appengine.ext import db
-from google.appengine.api.datastore import Key
 from datetime import datetime
 import utilities
+
 
 def simple_validate(v):
     medkit = db.get(v['mk'])
@@ -28,6 +28,7 @@ class landing(webapp2.RequestHandler):
         v = {'PostDefault': PostDefault}
         if post_code != "":
             v['post_code'] = post_code.lower().replace("/", "")
+            v['wrong_code'] = bool(self.request.get("wc"))
         html = render.page(self, "templates/volunteer/landing.html", v)
         self.response.out.write(html)
     def post(self):
@@ -40,7 +41,7 @@ class landing(webapp2.RequestHandler):
             re_url = "/%s/%s/status?k=%s" % (post_code, m_id, m_k)
             self.redirect(re_url)
         else:
-            self.response.out.write("Not Found.  Maybe you typed the MedKit code in wrong?")
+            self.redirect("/" + self.request.POST['post_code'] + "?wc=True")
 
 class status(webapp2.RequestHandler):
     def get(self, post_code, kit_id):
@@ -50,7 +51,6 @@ class status(webapp2.RequestHandler):
         v['mk'] = self.request.get('k')
         v = simple_validate(v)
         if v['valid']:
-            v['nav'] = 'status'
             request_query = SupplyRequest.all().filter('medkit =', v["MedKit"]).order("-date")
             v['requests'] = utilities.sr_improver(request_query)
             html = render.page(self, "templates/volunteer/status_table.html", v)
@@ -66,10 +66,9 @@ class request_form(webapp2.RequestHandler):
         v['mk'] = self.request.get('k')
         v = simple_validate(v)
         if v['valid']:
-            v['nav'] = 'request_form'
             v['Supply'] = Supply
             v['srf'] = SupplyRequestForm()
-            html = render.page(self, "templates/volunteer/request_form.html", v)
+            html = render.page(self, "templates/forms/supply_request.html", v)
             self.response.out.write(html)
         else:
             render.not_found(self)
@@ -79,14 +78,6 @@ class request_form(webapp2.RequestHandler):
              'mk': self.request.get("mk")}
         v = simple_validate(v)
         if v['valid']:
-            # class SupplyRequest(db.Model):
-            #    supplies = db.ListProperty(db.Key)
-            #    date = db.DateTimeProperty(required=False)
-            #    quantities = db.ListProperty(int)
-            #    delivery_event = db.ReferenceProperty(DeliveryEvent)
-            #    status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
-            #    status_notes = db.TextProperty(required=False)
-            #    volunteer_notes = db.TextProperty(required=False)
             supplies = []
             quantities = []
             # PR AKA Post Reqest Dictionary

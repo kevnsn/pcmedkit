@@ -49,12 +49,13 @@
 {% block navbar %}{% endblock %}
 {% block content %}
      <form class="form-signin" action="/" method="POST" onsubmit="return validatelogin();" >
-        <h2 class="form-signin-heading">PC MedKit</h2>
-
+        <h2 class="form-signin-heading">PC MedKit </h2>
+        {% if wrong_code %}<h4><strong><em style="color: red">Wrong Code! Please Try Again...</em></strong></h4>{% endif %}
             <select class="input-block-level" id="post_code" name="post_code">
             <option value="">*** SELECT POST ***</option>
             {% for p in PostDefault.all().order('post_name') %}<option value="{{ p.slug }}" {% if p.slug == post_code %}selected="selected"{% endif %}>{{ p.post_name }}</option>{% endfor %}
             </select>
+
             <input class="input-block-level" name="code" type="password" placeholder="MedKit Code">
             <br>
             <button style="float:right" class="btn btn-large btn-primary" type="submit">Sign in</button><br>

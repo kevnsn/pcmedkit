@@ -1,5 +1,5 @@
-{% extends "templates/postadmin/requests_table.html" %}
-{% block title %}Confirmation Page{% endblock %}
+{% extends "/templates/postadmin/landing.html" %}
+
 {% block content %}
 
 <h3>Medical Box #{{ MedKit.key().id() }} has been assigned to {{ Volunteer.first_name }} {{ Volunteer.last_name }} !</h3>

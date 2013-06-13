@@ -1,13 +1,5 @@
-import cgi
-import os
 import webapp2
-from datetime import datetime
-from google.appengine.api import search
-from google.appengine.api import users
-import models
 import render
-
-import jinja2
 
 
 class main(webapp2.RequestHandler):

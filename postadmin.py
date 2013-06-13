@@ -1,5 +1,3 @@
-import cgi
-import os
 from datetime import datetime
 import webapp2
 from google.appengine.ext import db
@@ -9,6 +7,14 @@ from forms import VolunteerForm, SupplyForm, DeliveryEventForm
 from models import Volunteer, MedKit, PostDefault, SupplyRequest, Supply, DeliveryEvent
 import utilities
 
+def simple_validate(v):
+    q = PostDefault.all().filter("slug =", v.get('post_code', "").lower())
+    if q.count() > 0 and v.get('post_code', "") != "":
+        v['post_default'] = q.get()
+        v['valid'] = True
+    else:
+        v['valid'] = False
+    return v
 
 class landing(webapp2.RequestHandler):
     def get(self, post_code=""):
@@ -19,13 +25,15 @@ class landing(webapp2.RequestHandler):
 
 class supply_form(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'sf': SupplyForm(), 'post_code': post_code}
-        v['supplies'] = Supply.all().order('name')
-        html = render.page(self, "templates/postadmin/supply_form.html", v)
-        self.response.out.write(html)
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
+            v['sf'] = SupplyForm()
+            v['supplies'] = Supply.all().order('name')
+            html = render.page(self, "templates/postadmin/supply_form.html", v)
+            self.response.out.write(html)
     def post(self, post_code):
-        post_def_record = PostDefault.all().filter('slug =', post_code)
-        if post_def_record != None:
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
             f = SupplyForm(self.request.POST)
             if f.validate():
                 new_s = Supply(
@@ -34,9 +42,8 @@ class supply_form(webapp2.RequestHandler):
                     maximum = f.maximum.data,
                 )
                 new_s.put()
-                pd = post_def_record.get()
-                pd.supplies.append(new_s.key())
-                pd.put()
+                v['post_default'].supplies.append(new_s.key())
+                v['post_default'].put()
                 re_url = "/admin/%s/supplies" % (post_code)
                 self.redirect(re_url)
             else:
@@ -46,22 +53,9 @@ class supply_form(webapp2.RequestHandler):
             render.not_found(self)
 
 class requests_table(webapp2.RequestHandler):
-    '''
-    Present a table to the post administrator with all requests and their status
-    '''
-    # supplies = db.ListProperty(db.Key)
-    # date = db.DateTimeProperty(required=False)
-    # quantities = db.ListProperty(int)
-    # delivery_event = db.ReferenceProperty(DeliveryEvent)
-    # status = db.StringProperty(required=True, choices=set(["Requested", "In Transit", "Completed", "See Notes"]), default="Requested")
-    # status_notes = db.TextProperty(required=False)
-    # volunteer_notes = db.TextProperty(required=False)
-
     def get(self, post_code):
-        v = {'post_code': post_code}
-        q = PostDefault.all().filter("slug =", post_code.lower())
-        if q.count() > 0:
-            v["post_default"] = q.get()
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
             all_requests = SupplyRequest.all().filter("post_default =", v["post_default"])
             v['requests'] = utilities.sr_improver(all_requests)
             html = render.page(self, "templates/postadmin/requests_table.html", v)
@@ -72,23 +66,20 @@ class requests_table(webapp2.RequestHandler):
 
 class update(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'post_code': post_code}
-        q = PostDefault.all().filter("slug =", post_code.lower())
-        if q.count() > 0:
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
             sr = db.get(self.request.get("k"))
             v["supply_request"] = utilities.sr_improver([sr])[0]
-            v["post_default"] = q.get()
             v['status_choices'] = list(SupplyRequest.status.choices)
             v["def"] = DeliveryEventForm()
             v["delivery_events"] = DeliveryEvent.all()
-            html = render.page(self, "templates/postadmin/r_update_form.html", v)
+            html = render.page(self, "templates/forms/update_supply_request.html", v)
             self.response.out.write(html)
         else:
             self.response.out.write("Post not found")
     def post(self, post_code):
-        v = {'post_code': post_code}
-        q = PostDefault.all().filter("slug =", post_code.lower())
-        if q.count() > 0:
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
             PR = self.request.POST
             supply_request = db.get(PR['k'])
             supply_request.status = PR['status']
@@ -100,7 +91,7 @@ class update(webapp2.RequestHandler):
                     notes=PR['notes']
                 )
                 de.put()
-                PD = q.get()
+                PD = v['post_default']
                 PD.delivery_events.append(de.key())
                 PD.put()
                 MK = supply_request.medkit
@@ -120,14 +111,14 @@ class update(webapp2.RequestHandler):
 
 class medkit(webapp2.RequestHandler):
     def get(self, post_code):
-        v = {'vf': VolunteerForm(),
-             'path': self.request.path,
-             'post_code': post_code}
-        html = render.page(self, "templates/postadmin/assign_medkit.html",v)
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
+            v['vf'] = VolunteerForm()
+        html = render.page(self, "templates/forms/assign_medkit.html",v)
         self.response.out.write(html)
     def post(self, post_code):
-        post_def_record = PostDefault.all().filter('slug =', post_code)
-        if post_def_record != None:
+        v = simple_validate({'post_code': post_code})
+        if v['valid']:
             f = VolunteerForm(self.request.POST)
             if f.validate():
                 new_v = Volunteer(
@@ -147,10 +138,11 @@ class medkit(webapp2.RequestHandler):
                     in_use = True,
                     delivery_events = [],
                     volunteer = new_v,
-                    post_default = post_def_record.get(),
+                    post_default = v["post_default"],
                 )
                 new_kit.put()
-                v = {'Volunteer': new_v, 'MedKit': new_kit, 'post_code': post_code}
+                v['Volunteer'] = new_v
+                v['MedKit'] = new_kit
                 html = render.page(self, "templates/postadmin/confirmation.html",v)
                 self.response.out.write(html)
             else:

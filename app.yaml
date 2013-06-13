@@ -16,6 +16,11 @@ handlers:
 - url: /
   script: handle_main.app
 
+- url: /admin/hq.*
+  script: handle_main.superadmin
+#  login: admin
+#  secure: always
+
 - url: /admin.*
   script: handle_main.siteadmin
 #  login: admin

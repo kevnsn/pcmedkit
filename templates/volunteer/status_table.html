@@ -8,9 +8,51 @@
  <div class="row-fluid">
     <div class="span12">
         <div style="padding:2em; line-height: 2em;">
-            <h1>Hi {{ volunteer.first_name }} {{ volunteer.last_name }}!</h1>
-            <h1>REQUEST LOG for Kit# {{ MedKit.key().id() }}</h1>
-            {% include "/templates/request_table.html" %}
+            <h1>SUPPLY REQUESTS</h1>
+
+
+                <table class="table" id="request_table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Requested Items</th>
+                      <th>Date Submitted</th>
+                      <th>Expected Delivery</th>
+                      <th>Status</th>
+                      <th>Status Notes</th>
+                      <th>Volunteer Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in requests %}
+                      <tr>
+                        <td> {{ row.key().id() }} </td>
+                        <td>
+                              {% for sup in row.supply_objects %}
+                              <strong>{{ row.quantities[loop.index-1] }}</strong>  {{ sup.name }}  ({{ sup.description }})<br>
+                              {% endfor %}
+                        </td>
+                        <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
+                        <td>
+                        {% if row.delivery_event %}
+                            {{ row.delivery_event.name }} <em>{{ row.delivery_event.date.strftime("%m/%d/%Y") }}</em>
+                            {% if row.delivery_event.notes not in [None, ""] %}
+                                <br>NOTE: {{ row.delivery_event.notes }}
+                            {% endif %}
+                        {% endif %}
+                        </td>
+                        <td> {{ row.status }} </td>
+                        <td> {{ row.status_notes }} </td>
+                        <td> {{ row.volunteer_notes }} </td>
+                      </tr>
+                      <tr>
+
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+
             <div style="text-align: right;">
                 <a href="/{{ post_code }}/{{ kit_id }}/request?k={{ mk }}" class="btn btn-primary">New Supply Request</a>
             </div>

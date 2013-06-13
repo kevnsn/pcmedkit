@@ -1,6 +1,8 @@
 {% extends "/templates/base.html" %}
-{% block title %}PC MedKit - Post Admin{% endblock %}
+{% block brand %}<a class="brand" href="/admin/{{ post_default.slug }}">PC MedKit - {{ post_default.post_name }}</a>{% endblock %}
+{% block title %}PC MedKit - {{ post_default.post_name }}{% endblock %}
 {% block nav_list %}
+    {% include "/templates/postadmin/nav_list.html" %}
 {% endblock %}
 
 {% block content %}
