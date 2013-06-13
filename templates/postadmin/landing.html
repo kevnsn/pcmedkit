@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row-fluid">
 <div class="span12">
-   <h1>All Posts</h1>
+   <h3>Choose Your Post...</h3>
 </div>
 </div>
 
@@ -14,7 +14,7 @@
     <div class="span2">
 
 
-        <h3>Africa</h3>
+        <h4>Africa</h4>
         <ul>
         {% for p in PostDefault.all().filter("region =", "AFR").order("post_name") %}
             <li>
@@ -22,7 +22,10 @@
             </li>
         {% endfor %}
         </ul>
-        <h3>Europe, Mediterranean, and Asia Region</h3>
+    </div>
+
+    <div class="span3">
+        <h4>Europe, Mediterranean, and Asia Region</h4>
         <ul>
             {% for p in PostDefault.all().filter("region =", "EMA").order("post_name") %}
                 <li>
@@ -32,8 +35,9 @@
             {% endfor %}
         </ul>
     </div>
-    <div class="span2">
-        <h3>Inter-America and Pacific Region</h3>
+
+    <div class="span3">
+        <h4>Inter-America and Pacific Region</h4>
         <ul>
             {% for p in PostDefault.all().filter("region =", "IAP").order("post_name") %}
                 <li>
@@ -42,7 +46,10 @@
 
             {% endfor %}
         </ul>
-        <h3>Other</h3>
+    </div>
+
+    <div class="span3">
+        <h4>Other</h4>
         <ul>
             {% for p in PostDefault.all().filter("region =", "Other").order("post_name") %}
                 <li>
@@ -50,6 +57,7 @@
                 </li>
             {% endfor %}
         </ul>
+
     </div>
  </div>
 
