@@ -5,15 +5,16 @@
 {% block content %}
 
  <div class="row-fluid">
-    <div class="span12" style="text-align: center">
+    <div class="span5" style="text-align: center">
         <div style="padding:2em; line-height: 2em;">
             <h1>Available Supplies</h1>
-
-                    <table style="padding:3em;" class="table">
+            <form action="{{ path }}" class="form-inline" method="POST">
+                    <table class="table standard_table">
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Description</th>
+                          <th style="width: 40%">Name</th>
+                          <th style="width: 40%">Description</th>
+                          <th>Maximum</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -24,22 +25,18 @@
                             <td> {{ row.maximum }} </td>
                           </tr>
                         {% endfor %}
-                        <tr>
-                          <th colspan="3">Add Supplies</th>
-                        </tr>
-                        <tr>
-                          <td colspan="3">
-                                <form action="{{ path }}" class="form-inline" method="POST">
-                                  {{ sf.name.label }}{{ sf.name }}
-                                  {{ sf.description.label }}{{ sf.description }}
-                                  {{ sf.maximum.label }}{{ sf.maximum }}
-                                  <br><input type="submit" class="btn" value="submit">
-                                </form>
-                          </td>
-                        </tr>
 
+                        <tr>
+                                  <td>{{ sf.name }}</td>
+                                  <td>{{ sf.description }}</td>
+                                  <td>{{ sf.maximum }}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" style="text-align: right"><input type="submit" class="btn" value="Add New Supply"></input></td>
+                        </tr>
                       </tbody>
                     </table>
+            </form>
         </div>
     </div>
  </div>

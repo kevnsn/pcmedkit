@@ -1,12 +1,16 @@
 import webapp2
 import render
-
+from models import PostDefault
 
 class main(webapp2.RequestHandler):
     def get(self):
-        template_values = {
-            'position': 'Peace Corps Volunteer',
-            'verb': 'extremely enjoy'
+        v = {}
+        v['region_codes'] = {
+            'Africa': "AFR",
+            'Europe, Mediterranean, and Asia Region': "EMA",
+            'Inter-America and Pacific Region': "IAP",
+            "Other": "Other",
         }
-        html = render.page(self, "templates/superadmin/home.html",template_values)
+        v['PostDefault'] = PostDefault
+        html = render.page(self, "templates/superadmin/landing.html",v)
         self.response.out.write(html)

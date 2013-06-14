@@ -26,11 +26,20 @@ def simple_validate(v):
 class landing(webapp2.RequestHandler):
     def get(self, post_code=""):
         v = {'PostDefault': PostDefault}
-        if post_code != "":
+        v['wrong_code'] = bool(self.request.get("wc"))
+        if post_code == "":
+            html = render.page(self, "templates/volunteer/landing.html", v)
+            self.response.out.write(html)
+        else:
             v['post_code'] = post_code.lower().replace("/", "")
-            v['wrong_code'] = bool(self.request.get("wc"))
-        html = render.page(self, "templates/volunteer/landing.html", v)
-        self.response.out.write(html)
+            q = PostDefault.all().filter('slug =', v["post_code"])
+            if q.count() > 0:
+                html = render.page(self, "templates/volunteer/landing.html", v)
+                self.response.out.write(html)
+            else:
+                render.not_found(self)
+
+
     def post(self):
         mk_code = self.request.POST['code']
         post_code = self.request.POST['post_code']

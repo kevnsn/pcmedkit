@@ -1,0 +1,42 @@
+{% extends "/templates/base.html" %}
+{% block brand %}<a class="brand" href="/admin/hq">PC MedKit - HEADQUARTERS</a>{% endblock %}
+{% block title %}PC MedKit - HEADQUARTERS{% endblock %}
+{% block nav_list %}
+    {% include "/templates/superadmin/nav_list.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="span12">
+    <h1>Posts</h1>
+        <table class="standard_table">
+            <thead>
+                <tr>
+                    <th>Post Name</th>
+                    <th>URL</th>
+                    <th>Admin (separated by semicolin ";")</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for region in region_codes %}
+                <tr><td colspan="3" style="text-align: center"><strong>{{ region }}</strong></td></tr>
+
+                <tr>
+                {% for pd in PostDefault.all().filter("region =", region_codes[region] ).order("post_name") %}
+                    <td>{{ pd.post_name }}</td>
+                    <td><a href="/admin/{{ pd.slug }}">/admin/{{ pd.slug }}</a></td>
+                    <td>{% for email in pd.post_admin %}{{ email }}{% if loop.index > 1 %}, {% endif %}{% endfor %}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+</div>
+
+{% endblock %}

@@ -19,7 +19,7 @@ siteadmin = webapp2.WSGIApplication([(r'/admin/(.+)/supplies', postadmin.supply_
                                (r'/admin', postadmin.landing),
                                ], debug=True)
 
-superadmin = webapp2.WSGIApplication([(r'/admin/hq', postadmin.supply_form),
+superadmin = webapp2.WSGIApplication([(r'/admin/hq', superadmin.main),
                                ], debug=True)
 
 not_found = webapp2.WSGIApplication([('/.*', render.not_found)], debug=True)
