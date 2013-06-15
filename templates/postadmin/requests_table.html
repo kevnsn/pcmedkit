@@ -3,58 +3,125 @@
 {% block head %}
     {{ super() }}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("tr.supply_request").click(function(){
-           document.location.href = $(this).data('url');
-        })
-    })
+$(document).ready(function(){
+    $(".edit").click(function(){
+       document.location.href = $(this).data('url');
+    });
+
+
+    $("#select_all").click(function() {
+        var cboxes = $(".row_cb");
+        if ($(this).prop("checked")) {
+                $(".supply_request").toggleClass("row_selected", true);
+                for (var i = 0; i < cboxes.length; i++) {
+                    cboxes[i].checked = true;
+                }
+            }
+        else {
+                $(".supply_request").toggleClass("row_selected", false);
+                for (var i = 0; i < cboxes.length; i++) {
+                    cboxes[i].checked = false;
+                }
+        };
+    });
+
+
+
+     $(".supply_request").click(function(){
+         var this_cbox = $("#checkbox_" + $(this).data("index"));
+         $(this).toggleClass("row_selected");
+
+         if ($(this).hasClass("row_selected")) {
+             this_cbox.prop("checked", true);
+         }
+         else {
+             this_cbox.prop("checked", false);
+         }
+     });
+
+    $(".standard_table").on("mouseenter", ".supply_request", function (event) {
+        $("#edit_btn_" + $(this).data('index')).show();
+        }).on("mouseleave", ".supply_request", function (event) {
+        $("#edit_btn_" + $(this).data('index')).hide();
+    });
+
+
+});
 </script>
 {% endblock %}
 
 {% block content %}
 
 <div class="row-fluid">
-    <div class="span12" style="text-align: center">
+    <div class="span12">
         <div style="padding:2em; line-height: 2em;">
             <h1>ALL REQUESTS FOR {{ post_default.post_name.upper() }}</h1>
-<table class="table standard_table">
-  <thead>
-    <tr>
+        <br>
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Change Selected Status
+                <span class="caret"></span>
+            </a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Requested</a></li>
+            <li><a href="#">In Transit</a></li>
+            <li><a href="#">Completed</a></li>
+            <li><a href="#">See Notes</a></li>
+        </ul>
+    </div>
+        <div class="btn-group">
+            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                Change Selected Delivery Event
+                <span class="caret"></span>
+            </a>
+        <ul class="dropdown-menu">
+            {% for de in DeliveryEvent.all().order("name") %}
+            <li><a href="#">{{ de.name }}</a></li>
+            {% endfor %}
 
-      <th>ID</th>
-      <th>Date Submitted</th>
-      <th>Volunteer Name</th>
-      <th>Requested Items</th>
+        </ul>
+    </div>
+        <table class="table standard_table">
+          <thead>
+            <tr>
+              <th><input id="select_all" type="checkbox"></th>
+              <th>ID</th>
+              <th>Date Submitted</th>
+              <th>Volunteer Name</th>
+              <th>Requested Items</th>
 
-      <th>Delivery Event</th>
-      <th>Status</th>
-      <th>Status Notes</th>
-      <th>Volunteer Notes</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for row in requests %}
-      <tr class="supply_request" data-url="/admin/{{ post_code }}/update?k={{ row.key() }}">
-        <td> {{ row.key().id() }} </td>
-        <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
-        <td> {{ row.medkit.volunteer.last_name }}, {{ row.medkit.volunteer.first_name }}</td>
-        <td>
-              {% for sup in row.supply_objects %}
-              <strong>{{ row.quantities[loop.index-1] }}</strong>  {{ sup.name }}  ({{ sup.description }})<br>
-              {% endfor %}
-        </td>
+              <th>Delivery Event</th>
+              <th>Status</th>
+              <th>Status Notes</th>
+              <th>Volunteer Notes</th>
+              <th style="width: 20px">-</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in requests %}
+              <tr id="row_{{ loop.index }}" class="supply_request" data-index="{{ loop.index }}">
+                <td><input id="checkbox_{{ loop.index }}" type="checkbox" class="row_cb" value="{{ row.key() }}" data-index="{{ loop.index }}"></td>
+                <td> {{ row.key().id() }} </td>
+                <td> {{ row.date.strftime('%m/%d/%Y') }} </td>
+                <td> {{ row.medkit.volunteer.last_name }}, {{ row.medkit.volunteer.first_name }}</td>
+                <td>
+                      {% for sup in row.supply_objects %}
+                      <strong>{{ row.quantities[loop.index-1] }}</strong>  {{ sup.name }}  ({{ sup.description }})<br>
+                      {% endfor %}
+                </td>
 
-        <td> {{ row.delivery_event.name }} </td>
-        <td> {{ row.status }} </td>
-        <td> {{ row.status_notes }} </td>
-        <td> {{ row.volunteer_notes }} </td>
-      </tr>
-      <tr>
+                <td> {{ row.delivery_event.name }} </td>
+                <td> {{ row.status }} </td>
+                <td> {{ row.status_notes }} </td>
+                <td> {{ row.volunteer_notes }} </td>
+                <td> <i id="edit_btn_{{ loop.index }}" style="display: none" class="icon-edit edit" data-url="/admin/{{ post_code }}/update?k={{ row.key() }}"></i> </td>
+              </tr>
+              <tr>
 
 
-    {% endfor %}
-  </tbody>
-</table>
+            {% endfor %}
+          </tbody>
+        </table>
 
 
         </div>

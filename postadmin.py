@@ -56,7 +56,8 @@ class requests_table(webapp2.RequestHandler):
     def get(self, post_code):
         v = simple_validate({'post_code': post_code})
         if v['valid']:
-            all_requests = SupplyRequest.all().filter("post_default =", v["post_default"])
+            all_requests = SupplyRequest.all().filter("post_default =", v["post_default"]).order("-date")
+            v['DeliveryEvent'] = DeliveryEvent
             v['requests'] = utilities.sr_improver(all_requests)
             html = render.page(self, "templates/postadmin/requests_table.html", v)
             self.response.out.write(html)

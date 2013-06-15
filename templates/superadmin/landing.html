@@ -9,7 +9,7 @@
 <div class="row-fluid">
     <div class="span12">
     <h1>Posts</h1>
-        <table class="standard_table">
+        <table class="table standard_table" style="width: 30%">
             <thead>
                 <tr>
                     <th>Post Name</th>
@@ -19,7 +19,7 @@
             </thead>
             <tbody>
             {% for region in region_codes %}
-                <tr><td colspan="3" style="text-align: center"><strong>{{ region }}</strong></td></tr>
+                <tr><td colspan="3"><strong>{{ region }}</strong></td></tr>
 
                 <tr>
                 {% for pd in PostDefault.all().filter("region =", region_codes[region] ).order("post_name") %}
