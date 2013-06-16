@@ -4,28 +4,85 @@
 {% block nav_list %}
     {% include "/templates/superadmin/nav_list.html" %}
 {% endblock %}
+{% block head %}
+    {{ super() }}
+    <script type="text/javascript">
+     $(document).ready(function() {
 
+
+    $("body").on("mouseenter", ".live", function (event) {
+        $("#edit_btn_" + $(this).data('key')).show();
+        $(this).toggleClass("row_selected", true);
+        }).on("mouseleave", ".live", function (event) {
+        $("#edit_btn_" + $(this).data('key')).hide();
+        $(this).toggleClass("row_selected", false);
+    });
+
+    $('.modal_view').click(function(){
+        $("#modal_content").html('<div style="text-align:center; vertical-align: middle;"><img src="/img/loader.gif" /></div>')
+        k = $(this).data("key");
+
+        $.ajax({
+            url: "/admin/hq/pd_admin?k="+k,
+            dataType: "html",
+            error: function () {
+                $("#modal_content").html('load failed :(');
+            },
+            success: (function (data) {
+                $("#modal_content").html(data);
+            })
+        });
+
+    })
+
+     })
+
+    </script>
+{% endblock %}
 {% block content %}
+
+
+
 <div class="row-fluid">
     <div class="span12">
+
+    <div id="modal_content" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Edit Post Admin</h3>
+        </div>
+        <div class="modal-body">
+            <p>One fine body…</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn">Close</a>
+            <a href="#" class="btn btn-primary">Save changes</a>
+        </div>
+    </div>
+
+
+
     <h1>Posts</h1>
         <table class="table standard_table" style="width: 30%">
             <thead>
                 <tr>
                     <th>Post Name</th>
-                    <th>URL</th>
-                    <th>Admin (separated by semicolin ";")</th>
+                    <th>URL Code</th>
+                    <th>Emails (separated by ";")</th>
+                    <th style="width: 50px;">-</th>
                 </tr>
             </thead>
             <tbody>
-            {% for region in region_codes %}
-                <tr><td colspan="3"><strong>{{ region }}</strong></td></tr>
+            {% for region in regions %}
+                <tr><td colspan="4"><strong>{{ region }}</strong></td></tr>
 
-                <tr>
+
                 {% for pd in PostDefault.all().filter("region =", region_codes[region] ).order("post_name") %}
+                    <tr class="live" data-key="{{ pd.key() }}">
                     <td>{{ pd.post_name }}</td>
-                    <td><a href="/admin/{{ pd.slug }}">/admin/{{ pd.slug }}</a></td>
+                    <td><a href="/admin/{{ pd.slug }}">{{ pd.slug }}</a></td>
                     <td>{% for email in pd.post_admin %}{{ email }}{% if loop.index > 1 %}, {% endif %}{% endfor %}</td>
+                    <td><button id="edit_btn_{{ pd.key() }}" style="display: none" class="modal_view btn" data-target="#modal_content" data-toggle="modal" data-key="{{ pd.key() }}"><i class="icon-edit"></i> </button></td>
                     </tr>
                 {% endfor %}
             {% endfor %}
